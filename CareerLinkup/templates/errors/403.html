@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+
+{% block container %}
+
+<section id="error" class="py-5 vh-100">
+    <div class="container">
+        <h1>403: Unauthorized Activity</h1>
+        <p>
+            You don't have permissions to perform this Activity.
+            Check your Account and Try Again.
+        </p>
+        <a href="{{url_for('main.home')}}" class="btn btn-sm btn-brand prim text-light">Home Page</a>
+    </div>
+</section>
+
+{% endblock %}
+{% block script %}{% endblock %}

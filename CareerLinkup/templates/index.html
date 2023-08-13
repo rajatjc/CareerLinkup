@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block container %}
+
+<!-- Landing Section -->
+<section id="hero" class="g-light text-center text-sm-start mb-5">
+    <div class="container ">
+        <div class="d-sm-flex hero-zlayer align-items-center justify-content-around position-relative">
+            <div class="w-sm-50 pt-4 pt-sm-auto px-4 px-sm-0">
+                <h1 class="h1-1"><b>Empowering Your Career Journey</b></h1>
+                <h1 class="t-prim h1-2"><b>
+                    <span style="--i:0">Together</span><span style="--i:1">&nbsp;</span><span style="--i:2">We</span><span style="--i:9">&nbsp;</span><span style="--i:3">Build</span><span style="--i:4">&nbsp;</span><span style="--i:5">Your</span><span style="--i:6">&nbsp;</span><span style="--i:7">Success</span><span style="--i:8">.</span><span style="--i:10">.</span><span style="--i:11">.</span>
+                </b></h1>
+                <p class="py-2">Unlock Your Potential with Us.
+                    <br>Unleashing Your Career Possibilities.
+                </p>
+                <div class="d-sm-flex">
+                    <a class="btn btn-brand peach d-block w-100 me-2 my-2 my-sm-auto" href="{{url_for('applicant.applicant_signup')}}">Get Started</a>
+                    <a class="btn btn-outline-dark d-block w-100" href="{{url_for('jobs.job_list')}}" >View Jobs</a>
+                </div>
+
+            </div>
+            <img class="img-fluid w-50 hero-img" src="{{url_for('static', filename='img/hero.png')}}" alt="CareerLinkup">
+        </div>
+    </div>
+</section>
+<!-- Landing Section -->
+
+
+
+{% endblock %}

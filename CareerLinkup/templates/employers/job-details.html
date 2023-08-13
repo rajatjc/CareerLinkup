@@ -1,0 +1,65 @@
+{% extends 'base.html' %}   
+
+{% block container %}
+
+<section id="job-profile" class="bg-light py-3 min-vh">
+    <div class="container">
+        <h4 class="bg-teal-lgrad text-light p-3 my-3 mb-4">Job Details for {{ job.title.capitalize() }}</h4>
+        <div class="row row-cols-1 g-3">
+            <div class="col">
+                <div class="bg-white p-3 border">
+                    <div class="d-flex">
+                        <div>
+                            <div class="profile-img-ctn">
+                                <img src="{{ url_for('static', filename='employer/logo/' + job.company.logo) }}" alt="">
+                            </div>
+                        </div>
+                        <div class="ps-3 w-100">
+                            <div class="border-bottom mb-1">
+                                <small class="text-muted"><i class="fa fa-calendar t-prim"></i> Posted {{ job.date_posted.strftime("%d %b, %Y") }}</small>
+                            </div>
+                            <div class="m-0 h2 text-dark">{{ job.title }}</div>
+                            <p class="text-muted m-0">{{ job.company.name.capitalize() }} <small><i class="fa fa-map-marker t-prim"></i> {{ job.company.location }}</small></p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="my-5 d-flex align-items-center">
+                            <div class="border-end  pe-4 py-2">
+                                <p class="text-muted m-0">
+                                    <span><i class="fa fa-puzzle-piece t-prim"></i> Job Category</span>
+                                </p>
+                                <p class="text-bold">{{ job.category }}</p>
+                            </div>
+                            <div class="ps-4 py-2 ">
+                                <p class="text-muted m-0">
+                                    {% if job.salary %}
+                                        <span><i class="fa fa-money t-prim"></i> CAD {{ job.salary | numberFormat}}</span>
+                                    {% else %}
+                                        <span><i class="fa fa-money t-prim"></i> CAD Not Specified</span>
+                                    {% endif %}
+                                </p>
+                                <p class="text-bold">{{ job.type }}</p>
+                            </div>
+                        </div>
+                        <h4 class="t">Job <b>Description</b></h4>
+                        <p>
+                            {{ job.description }}
+                        </p>
+                        {% if applicants %}
+                            {% if applicants|length > 1 %}
+                                <a href="{{ url_for('employer.applicants_per_job', job_id=job.id) }}" class="btn btn-sm px-3 btn-success text-light d-sm-inline-block d-block"> {{ applicants|length }} Applicants</a>
+                            {% else %}
+                            <a href="{{ url_for('employer.applicants_per_job', job_id=job.id) }}" class="btn btn-sm px-3 btn-success text-light d-sm-inline-block d-block"> {{ applicants|length }} Applicant</a>
+                            {% endif %}
+                        {% else %}
+                            <a href="#" class="btn btn-sm px-3 btn-success disabled text-light d-sm-inline-block d-block">No Applicants Yet</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+{% block script %}{% endblock %}

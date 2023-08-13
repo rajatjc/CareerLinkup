@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block logged_employer %}
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('main.home')}}">Account</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.posted_jobs')}}">Your Jobs</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.applicants')}}">Applicants</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2 active" href="{{url_for('employer.post_jobs')}}">Add Jobs</a>
+    </li>
+{% endblock %} 
+
+{% block container %}
+
+    <section class="py-3 bg-light min-vh">
+        <div class="container ">
+            <h3 class="text-light bg-teal-lgrad my-3 p-3">Job Details</h3>
+            <div class="row row-cols-1 g-2">
+                <div class="form-ctn-100 mx-auto mb-3 bg-c-white">
+                    <form class="px-3 py-4" method='POST' action="" >
+                        <!-- cross site request forgery token -->
+                        {{form.hidden_tag()}}
+                        <div class="h-hr">
+                            <h2 class="h">{{ h }}</h2>
+                            <span class="hr"></span>
+                        </div>
+                        <div class="row row-cols-md-2 row-cols-1">
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
+                                    {% if form.title.errors %}
+                                        {{form.title(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.title.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.title(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.title.label(class="form-control-label")}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
+                                    {% if form.category.errors %}
+                                        {{form.category(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.category.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.category(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.category.label(class="form-control-label")}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
+                                    {% if form.description.errors %}
+                                        {{form.description(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.description.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.description(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.description.label(class="form-control-label")}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
+                                    {% if form.type.errors %}
+                                        {{form.type(class="form-control form-select is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.type.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.type(class="form-control form-select")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.type.label(class="form-control-label")}}
+                                    <span class="pwd-vissibility px-3">
+                                        <i class="fa fa-angle-down"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
+                                    {% if form.salary.errors %}
+                                        {{form.salary(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.salary.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.salary(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.salary.label(class="form-control-label")}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <!-- submit button  -->
+                            {{form.submit(class="btn btn-brand prim text-light d-inline px-4")}}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+{% block script %}{% endblock %}

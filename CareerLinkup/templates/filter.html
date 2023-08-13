@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employer Filter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+            color: #2a6496;
+        }
+
+        #filterForm {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        label {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 200px;
+            padding: 5px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 5px 10px;
+            font-size: 16px;
+            background-color: #2a6496;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        #results {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 70%;
+            margin: 0 auto;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ccc;
+        }
+
+        th {
+            background-color: #2a6496;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #e6e6e6;
+        }
+    </style>
+</head>
+<body>
+    <h1>Employer Filter</h1>
+    <form id="filterForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name">
+
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location">
+
+        <label for="tagline">Tagline:</label>
+        <input type="text" id="tagline" name="tagline">
+
+        <button type="submit">Apply Filter</button>
+    </form>
+
+    <div id="results"></div>
+
+    <script>
+        document.getElementById("filterForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            applyFilter();
+        });
+
+        function applyFilter() {
+            const name = document.getElementById("name").value;
+            const location = document.getElementById("location").value;
+            const tagline = document.getElementById("tagline").value;
+
+            // Send the filter parameters to the Flask backend using fetch API or AJAX
+            fetch("/filter_employers", {
+                method: "POST",
+                body: JSON.stringify({ name, location, tagline }),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => response.json())
+            .then(data => displayTable(data));
+        }
+
+        function displayTable(data) {
+            // Display the filtered results as a table on the page
+            const resultsContainer = document.getElementById("results");
+            resultsContainer.innerHTML = "";
+
+            if (data.length === 0) {
+                resultsContainer.innerHTML = "<p>No results found.</p>";
+                return;
+            }
+
+            const table = document.createElement("table");
+            const tableHeader = document.createElement("thead");
+            const headerRow = document.createElement("tr");
+            const headers = ["Name", "Location", "Tagline"]; // Add more headers as needed
+
+            headers.forEach(headerText => {
+                const headerCell = document.createElement("th");
+                headerCell.textContent = headerText;
+                headerRow.appendChild(headerCell);
+            });
+
+            tableHeader.appendChild(headerRow);
+            table.appendChild(tableHeader);
+
+            const tableBody = document.createElement("tbody");
+
+            data.forEach((employer, index) => {
+                const row = document.createElement("tr");
+
+                // Alternate row background colors for better readability
+                if (index % 2 === 0) {
+                    row.style.backgroundColor = "#f2f2f2";
+                }
+
+                // Add data cells for each column
+                const nameCell = document.createElement("td");
+                nameCell.textContent = employer.name;
+                row.appendChild(nameCell);
+
+                const locationCell = document.createElement("td");
+                locationCell.textContent = employer.location;
+                row.appendChild(locationCell);
+
+                const taglineCell = document.createElement("td");
+                taglineCell.textContent = employer.tagline;
+                row.appendChild(taglineCell);
+
+                // Add more data cells for additional columns if needed
+
+                tableBody.appendChild(row);
+            });
+
+            table.appendChild(tableBody);
+            resultsContainer.appendChild(table);
+        }
+    </script>
+</body>
+</html>

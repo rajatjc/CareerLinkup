@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block logged_applicant %}
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('main.home')}}">Account</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('jobs.job_list')}}">Jobs</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('applicant.jobs_applied')}}">Jobs Applied</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2 active" href="{{url_for('employer.company_list')}}">Companies</a>
+    </li>
+{% endblock %}
+                          
+{% block logged_out %}
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('main.home')}}">Home</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('jobs.job_list')}}">Jobs</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2 active" href="{{url_for('employer.company_list')}}">Companies</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('main.about')}}">About Us</a>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link ps-sm-auto ps-2 dropdown-toggle" href="#" id="navbarDropdown" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            Login</a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{{url_for('employer.employer_login')}}">Employer</a></li>
+            <li><a class="dropdown-item" href="{{url_for('applicant.applicant_login')}}">Applicant</a></li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" href="{{url_for('admin.admin_login')}}">Admin</a></li>
+          
+        </ul>
+    </li>
+{% endblock %}
+
+{% block container %}
+
+<section id="search-companies" class="bg-teal-lgrad text-light text-center py-3">
+    <div class="container">
+        <h2 class="">Search Companies</h2>
+        <div class="row py-3">
+            <div class="col-md-6 col-lg-4 mx-auto text-light p-3">
+                <form class="m-0 p-0" method="post" action="{{ url_for('employer.company_search') }}">
+                    {{ form1.hidden_tag() }}
+                    <div class="d-sm-flex align-items-center">
+                        <div class="flex-grow-1"> <!-- Added class "flex-grow-1" to make the input field take available space -->
+                            <input type="text" name="name" placeholder="Name or Location" class="form-control my-2 p-1" required>
+                        </div>
+                        <div class="ms-sm-2"> <!-- Added class "ms-sm-2" to create space between the input field and the button -->
+                            <button type="submit" class="btn btn-light"> <i class="fa fa-search"></i> Search </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section id="companies" class="bg-light py-5">
+    <div class="container">
+        <div class="section-header">
+            <h2 class=" ">{{ head }} </h2>
+        </div>
+        
+        <div class="row row-cols-xxl-4 row-cols-lg-3 row-cols-md-2 row-cols-1 g-2">
+            {% for company in companies.items %}
+                <div class="col">
+                    <div class="bg-white border rad-3 d-flex p-3 h-100">
+                        <div>
+                            <a href="{{ url_for('employer.profile', company_id=company.id) }}" class="profile-img-ctn prof-sm">
+                                <img src="{{ url_for('static', filename='employer/logo/' + company.logo) }}" alt="">
+                            </a>
+                        </div>
+                        <div class="ms-3 ">
+                            <a href="{{ url_for('employer.profile', company_id=company.id) }}" class="m-0 h3 text-dark">{{ company.name.capitalize() }}</a>
+                            <p class="text-muted"><i class="fa fa-map-marker t-prim"></i> {{ company.location }}</p>
+                            <p>
+                                {{ company.description|truncate(75) }}
+                                <a href="{{ url_for('employer.profile', company_id=company.id) }}" class="t-prim">Learn More <i class="fa fa-angle-right"></i></a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% if companies.total > companies.per_page %}
+            {% for page_num in companies.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                {% if page_num %}
+                    {% if companies.page == page_num %}
+                        <a href="{{ url_for('employer.company_list', page=page_num) }}" class="btn btn-sm btn-light my-3">{{ page_num }}</a>
+                    {% else %}
+                        <a href="{{ url_for('employer.company_list', page=page_num) }}" class="btn btn-sm btn-outline-primary my-3">{{ page_num }}</a>
+                    {% endif %}
+                {% else %}
+                    ...
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        
+    </div>
+</section>
+
+{% endblock %}
+{% block script %}{% endblock %}

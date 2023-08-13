@@ -1,0 +1,62 @@
+@media screen and (max-width: 768px) {
+
+    .navbar-nav .nav-link::before {
+        display: none;
+    }
+    
+    .navbar-light .navbar-nav .nav-link.active,
+    .navbar-light .navbar-nav .show>.nav-link,
+    .navbar-nav .nav-link:hover {
+        background: rgba(0, 0, 0, .1);
+    }
+    
+    .show .dropdown .dropdown-menu {
+        width: 100%;
+    }
+    
+    .show .dropdown .dropdown-menu.show {
+        position: relative;
+        z-index: 1;
+    }
+    
+    #form-section .form-ctn {
+        min-width: 100%;
+    }
+    
+    .admin-nav {
+        left: -300px;
+    }
+    
+    .admin-nav.active {
+        left: 0;
+        width: 300px;
+    }
+    
+    .admin-nav.active .admin-user-ctn {
+        padding: 12px 0;
+        margin-bottom: 8px;
+        box-shadow: 0 0 0 1px var(--faint-light);
+        height: auto;
+    }
+
+    .admin-main {
+        width: 100%;
+        left: 0;
+    }
+    
+    .admin-main.active {
+        left: 300px;
+        width: calc(100% - 300px);
+        white-space: nowrap;
+    }
+    
+    .admin-main .admin-top-bar {
+        position: fixed;
+        width: 100%;
+    }
+    
+    .admin-search-box {
+        width: 80%;
+        max-width: 300px;
+    }
+}

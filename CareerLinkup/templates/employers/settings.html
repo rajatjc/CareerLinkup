@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+
+{% block container %}
+
+    <section class="py-3 bg-light">
+        <div class="container ">
+            <h3 class="text-light bg-teal-lgrad my-3 p-3">Account Settings</h3>
+            <div class=" ">
+                <div class="form-ctn mx-auto mb-3 bg-white">
+
+                    <!-- Image removal confirmation modal -->
+                    <div class="modal fade" id="remove-pic" tabindex="-1" aria-labelledby="" aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content bg-c-white t-dark">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="">Delete Image?</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <form action="{{ url_for('employer.delete_image', employer_id=user.id) }}" method="post">
+                                        <input type="submit" class="btn btn-sm btn-danger" value="Delete">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex p-3">
+                        <div class="prof-update">
+                            <div class="d-flex">
+                                <div class="profile-img-ctn">
+                                    <img src="{{ url_for('static', filename='employer/logo/' + user.logo) }}" alt="">
+                                </div>
+                                <div class="ms-2">
+                                    <p class="m-0 text-bold p-0">{{ user.name }}</p>
+                                    <p class="text-muted m-0"><small><i class="fa fa-map-marker t-prim"></i> {{ user.location }}</small></p>
+                                    {% if user.logo != 'company.png' %}
+                                        <button class="btn btn-sm btn-outline-secondary px-2 p-0" data-bs-toggle="modal" data-bs-target="#remove-pic" >Remove</button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <form class="p-3" method="POST" action="" enctype="multipart/form-data">
+                        <!-- cross site request forgery token -->
+                        {{form.hidden_tag()}}
+                        <div class="h-hr">
+                            <h3 class="h">Account Information</h3>
+                            <span class="hr"></span>
+                        </div>
+                        <div class="row row-cols-lg-2 row-cols-1">
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
+                                    {% if form.name.errors %}
+                                        {{form.name(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.name.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.name(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.name.label(class="form-control-label")}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
+                                    {% if form.email.errors %}
+                                        {{form.email(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.email.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.email(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.email.label(class="form-control-label")}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
+                                    {% if form.phone.errors %}
+                                        {{form.phone(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.phone.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.phone(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.phone.label(class="form-control-label")}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
+                                    {% if form.location.errors %}
+                                        {{form.location(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.location.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.location(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.location.label(class="form-control-label")}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
+                                    {% if form.tagline.errors %}
+                                        {{form.tagline(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.tagline.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.tagline(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.tagline.label(class="form-control-label")}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
+                                    {% if form.description.errors %}
+                                        {{form.description(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.description.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.description(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.description.label(class="form-control-label")}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
+                                    {% if form.website.errors %}
+                                        {{form.website(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.website.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.website(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.website.label(class="form-control-label")}}
+                                </div>
+                            </div>
+                            <div class="form-group form-file-group">
+                                <div class="field-ctn">
+                                    <!-- logo file field -->
+                                    {{form.logo.label(class="form-label")}}
+                                    {{form.logo(class="form-control form-control-sm")}}
+                                    {% if form.logo.errors %}
+                                        {% for error in form.logo.errors %}
+                                            <span class="text-danger">{{error}}</span><br>
+                                        {% endfor %}
+                                    {% else %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="">
+                            <!-- submit button  -->
+                            {{form.submit(class="btn btn-brand prim text-light d-inline px-4")}}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+{% block script %}{% endblock %}

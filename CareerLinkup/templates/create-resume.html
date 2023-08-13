@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block container %}
+<head>
+    <title>Resume Creator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: vertical;
+        }
+
+        textarea {
+            height: 150px;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Resume Creator</h1>
+    <form method="POST" action="{{ url_for('applicant.create_resume') }}">
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name" required>
+
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required>
+
+        <label for="phone">Phone:</label>
+        <input type="text" name="phone" id="phone" required>
+
+        <label for="summary">Summary:</label>
+        <textarea name="summary" id="summary" rows="6" cols="50" required></textarea>
+
+        <label for="education">Education:</label>
+        <textarea name="education" id="education" rows="6" cols="50" required></textarea>
+
+        <label for="experience">Experience:</label>
+        <textarea name="experience" id="experience" rows="6" cols="50" required></textarea>
+
+        <input type="submit" value="Create Resume">
+    </form>
+{% endblock %}
+{% block script %}{% endblock %}

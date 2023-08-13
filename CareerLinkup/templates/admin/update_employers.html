@@ -1,0 +1,219 @@
+{% extends 'admin/layout.html' %}
+{% block companies %}
+    <a href="{{ url_for('admin.admin_companies') }}" class="admin-nav-item active"><i class="fa fa-building-o" aria-hidden="true"></i> Companies</a>
+{% endblock %}
+
+{% block container %}
+
+    <div class="container">
+        <div class="content">
+            <h5 class="bg-teal-lgrad text-light p-3 my-3">Update Employers</h5>
+            <div class=" ">
+                <div class="form-ctn-100 mx-auto mb-3 bg-c-white d-md-flex">
+                    <div class="p-3 prof-update">
+                        <div class="profile-img-ctn">
+                            <img src="{{ url_for('static', filename='employer/logo/' + updated.logo) }}" alt="">
+                        </div>
+                        <p class="p-0 text-bold mt-2 mb-0">{{ updated.name }}</p>
+                        <p class="text-muted m-0">Posted Jobs: {{ jobs }}</p>
+                    </div>
+                    <form class="p-3" method="POST" action="" enctype="multipart/form-data">
+                        <!-- cross site request forgery token -->
+                        {{form.hidden_tag()}}
+                        <div class="h-hr">
+                            <h2 class="h">Update Employer</h2>
+                            <span class="hr"></span>
+                        </div>
+                        <div class="row row-cols-lg-2 row-cols-1">
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
+                                    {% if form.name.errors %}
+                                        {{form.name(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.name.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.name(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.name.label(class="form-control-label")}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
+                                    {% if form.location.errors %}
+                                        {{form.location(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.location.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.location(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.location.label(class="form-control-label")}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
+                                    {% if form.phone.errors %}
+                                        {{form.phone(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.phone.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.phone(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.phone.label(class="form-control-label")}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
+                                    {% if form.email.errors %}
+                                        {{form.email(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.email.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.email(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.email.label(class="form-control-label")}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
+                                    {% if form.tagline.errors %}
+                                        {{form.tagline(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.tagline.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.tagline(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.tagline.label(class="form-control-label")}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
+                                    {% if form.description.errors %}
+                                        {{form.description(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.description.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.description(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.description.label(class="form-control-label")}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
+                                    {% if form.website.errors %}
+                                        {{form.website(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.website.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.website(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.website.label(class="form-control-label")}}
+                                </div>
+                            </div>
+                            <div class="form-group form-file-group">
+                                <div class="field-ctn">
+                                    <!-- logo file field -->
+                                    {{form.logo.label(class="form-label")}}
+                                    {{form.logo(class="form-control form-control-sm")}}
+                                    {% if form.logo.errors %}
+                                        {% for error in form.logo.errors %}
+                                            <span class="text-danger">{{error}}</span><br>
+                                        {% endfor %}
+                                    {% else %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="">
+                            <!-- submit button  -->
+                            {{form.submit(class="btn btn-brand prim text-light d-inline px-4")}}
+                        </div>
+                    </form>
+                </div>
+                <div class="p-3 my-3 bg-c-white">
+                    <div class="bg-c-lighter my-3 p-3 d-flex">
+                        <h4 class="m-0" > Posted Jobs: <b>{{ jobs }}</b> </h4>
+                        <a href="{{ url_for('admin.admin_job_add') }}" class="btn btn-sm btn-success ms-auto" >Add New Job</a>
+                    </div>
+
+                    <table class="table table-hover bg-c-lighter t-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Type</th>
+                            <th>Salary (CAD)</th>
+                            <th>Action</th>
+                        </tr>
+                        {% for job in updated.jobs %}
+                            <tr>
+                                <td>{{ job.id }}</td>
+                                <td>{{ job.title }}</td>
+                                <td>{{ job.category }}</td>
+                                <td>{{ job.type }}</td>
+                                <td>{{ job.salary or 'Not Specified'}}</td>
+                                <td>
+                                    <a href="{{ url_for('admin.admin_job_update', job_id=job.id) }}" class="btn btn-sm btn-warning"> <i class="fa fa-pencil"></i> </a>
+                                    <a href="" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#remove-job{{job.id}}"> <i class="fa fa-trash"></i> </a>
+                                </td>
+                            </tr>
+                            <div class="modal fade" id="remove-job{{job.id}}" tabindex="-1" aria-labelledby="" aria-hidden="true">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content bg-c-white t-dark">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="">Remove Job?</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <form action="{{ url_for('admin.admin_job_remove', job_id=job.id) }}" method="post">
+                                                <input type="submit" class="btn btn-sm btn-danger" value="Remove">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+{% block script %}{% endblock %}

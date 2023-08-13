@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+
+{% block container %}
+
+<section id="error" class="py-5 vh-100">
+    <div class="container">
+        <h1>500: Something Went Wrong.</h1>
+        <p>
+            We are experiencing trouble on our end.
+            Please Try Again Later.
+        </p>
+        <a href="{{url_for('main.home')}}" class="btn btn-sm btn-brand prim text-light">Home Page</a>
+    </div>
+</section>
+
+{% endblock %}
+{% block script %}{% endblock %}

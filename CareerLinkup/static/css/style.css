@@ -1,0 +1,704 @@
+* {
+    list-style: none;
+    text-decoration: none;
+    /* transition: all .1s ease; */
+    box-sizing: border-box;
+}
+
+html {
+    --light: #FFF;        /* White */
+    --white: #FFF;        /* White */
+    --lighter: #F7F5F5;   /* Light Gray */
+    --prim: #000;         /* Black */
+    --dark: #212529;      /* Dark Gray */
+    --gray: #6c6d6f;      /* Gray */
+    --peach: #000;     /* Peach (You can keep this color or choose another one for accents) */
+    --teal1: #000;     /* Teal 1 (You can keep this color or choose another one for accents) */
+    --teal2: #000;     /* Teal 2 (You can keep this color or choose another one for accents) */
+    --faint-light: rgba(0, 0, 0, 0.1); /* Faint Light (You can keep this color or choose another one for accents) */
+}
+
+html,
+body {
+    font-family: "Roboto", sans-serif;
+    font-size: 14px; /* Reduced font size */
+}
+
+.text-bold {
+    font-weight: bold;
+}
+
+.reflect-px {
+    transform: rotateY(180deg);
+}
+
+.bg-teal-lgrad {
+    background: linear-gradient(to right, var(--teal1), var(--teal2));
+}
+
+.bg-w-opac {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.bg-d-opac {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.light {
+    background-color: var(--light);
+}
+
+.t-prim {
+    color: var(--prim);
+    font-size: 0.9rem; /* Reduced font size */
+}
+
+.prim {
+    background-color: var(--prim);
+    color: var(--lighter);
+}
+
+.dark {
+    background-color: var(--dark);
+}
+
+.t-dark {
+    color: var(--dark);
+}
+
+.peach {
+    background-color: var(--peach);
+}
+
+.t-peach {
+    color: var(--peach);
+}
+
+a {
+    text-decoration: none;
+    color: var(--dark);
+}
+
+.navbar {
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    z-index: 1000;
+    background-color: var(--white);
+}
+
+/* Rest of the CSS code remains unchanged */
+
+
+
+.navbar.header-scrolled {
+    position: fixed;
+}
+
+.navbar-nav li {
+    width: 100%;
+    padding: 4px 0;
+}
+
+.navbar-nav li a {
+    position: relative;
+    overflow: hidden;
+    padding: 4px 8px;
+    white-space: nowrap;
+    color: var(--dark);
+}
+
+.navbar-nav .nav-link::before {
+    width: 80%;
+    height: 2px;
+    background-color: var(--peach);
+    content: '';
+    border-radius: 20px;
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    transform: translateX(-150%);
+    transition: all 0.3s ease;
+}
+
+.navbar-light .navbar-nav .nav-link.active::before,
+.navbar-light .navbar-nav .show>.nav-link::before,
+.navbar-nav .nav-link:hover::before {
+    transform: translateX(0%);
+}
+
+.navbar-brand {
+    padding: 0;
+}
+
+.navbar-brand img {
+    width: 30px;
+}
+
+.main-brand a {
+    color: var(--dark);
+}
+
+.main-brand img {
+    width: 40px;
+}
+
+.btn:focus,
+.btn:active,
+.form-control:focus,
+.navbar-toggler:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.navbar-toggler {
+    border: none;
+}
+
+.h-hr {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    width: 100%;
+    margin-bottom: 50px;
+}
+
+.h-hr .h,
+.h-hr .hr {
+    margin: 0;
+    padding: 0;
+}
+
+.h-hr .hr {
+    border-bottom: 1px solid var(--faint-light);
+}
+
+#form-section .form-ctn-100 {
+    width: 100%;
+}
+
+#form-section .form-ctn {
+    width: 100%;
+    max-width: 450px;
+    margin: 20px auto;
+}
+
+#form-section .form-ctn form {
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid var(--faint-light);
+}
+
+#contact .form-ctn {
+    width: 100%;
+    border: 2px solid var(--light);
+}
+
+.git {
+    height: 100%;
+    border: 2px solid var(--light);
+    width: calc(100% - 17px);
+    padding: 20px 0;
+}
+
+.prof-update {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.git ul {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+}
+
+.git .user {
+    padding: 0 20px;
+}
+
+.git .user li a {
+    font-size: .85rem;
+    margin: 0;
+}
+
+.git .user li a i {
+    padding-right: .5rem;
+    color: var(--peach);
+}
+
+.git .user li a:hover,
+.git .user li a:hover > i,
+.git .sm li a:hover {
+    color: var(--prim);
+}
+
+.git ul li a {
+    padding: 8px 0;
+    display: block;
+    font-size: 1rem;
+    transition: .3s ease;
+}
+
+.git .sm {
+    border-radius: 3px;
+    background: #fff;
+    border: 2px solid var(--light);
+    transform: translateX(17px);
+    align-items: center;
+    justify-content: center;
+}
+
+.git .sm a {
+    color: var(--dark);
+    padding: 4px;
+    font-size: 1.3rem;
+}
+
+.search-form {
+    margin: 0;
+}
+
+.search-form input {
+    padding: 4px 4px;
+    border: none;
+}
+
+.form-control {
+    border: 1.250px solid var(--faint-light);
+}
+
+.form-control:focus,
+.form-control:valid {
+    border: 1px solid var(--prim);
+    box-shadow: 0 0 0 2px var(--faint-light);
+}
+
+.field-ctn {
+    position: relative;
+    margin-bottom: 40px;
+}
+
+.field-ctn label {
+    color: var(--gray);
+    left: 10px;
+    top: 0;
+    transform: translateY(-50%);
+    background: #fff;
+    font-size: .9rem;
+    position: absolute;
+    padding: 0 5px;
+    transition: transform .3s ease;
+}
+
+.form-control:focus~label,
+.form-control:valid~label {
+    transform: translateY(calc(-100% - 3px));
+    color: var(--dark);
+}
+
+.form-file-group .field-ctn label {
+    transform: translateY(calc(-100% - 3px));
+    left: 0;
+    color: var(--dark);
+}
+
+.pwd-visibility {
+    right: 0;
+    top: 0;
+    height: 38.5px;
+    position: absolute;
+    display: inline-flex;
+    cursor: pointer;
+    align-items: center;
+    pointer-events: auto;
+    color: var(--dark);
+}
+
+.btn-brand {
+    font-weight: 500;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.15);
+    background-color: var(--peach);
+    color: var(--lighter);
+    cursor: pointer;
+    transition: all .3s ease;
+}
+
+.btn-brand.peach:hover {
+    background: var(--prim);
+    color: var(--lighter);
+}
+
+.btn-brand.prim:hover {
+    background: var(--peach);
+    color: var(--lighter);
+}
+
+.dropdown .dropdown-menu {
+    display: block;
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-50px);
+    transition: .2s;
+    z-index: -1;
+}
+
+.dropdown-menu::before {
+    position: absolute;
+    top: 0;
+    left: 40px;
+    background: white;
+    border-top: 1px solid rgba(0, 0, 0, 0.15);
+    border-left: 1px solid rgba(0, 0, 0, 0.15);
+    content: "";
+    transform: translateY(-50%) rotate(45deg);
+    height: 10px;
+    width: 10px;
+}
+
+.dropdown-menu.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+img {
+    width: 100%;
+    display: inline-block;
+}
+
+.image-ctn {
+    padding: 0;
+}
+
+.image-ctn img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.g-light {
+    background: linear-gradient(-90deg, #EDF1F4, #DDE1E4);
+}
+
+.hero-zlayer {
+    z-index: 2;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-zlayer::before {
+    z-index: -1;
+    transform: rotate(-45deg) translate(20%, 80%);
+    width: 100%;
+    height: 50%;
+    bottom: 0;
+    right: 0;
+    content: "";
+    position: absolute;
+    background-color: var(--prim);
+}
+
+.section-header {
+    margin-bottom: 16px;
+}
+
+.min-vh {
+    min-height: 100vh;
+}
+
+#hero p {
+    color: rgb(93, 93, 93);
+    font-weight: 500;
+}
+
+#jobs-list .jobs-card,
+.category-card,
+.rad-3 {
+    height: 100%;
+    border-radius: 5px;
+}
+
+.category-img-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.category-card p {
+    color: var(--dark);
+    margin: 0;
+}
+
+.category-img-box p {
+    text-align: center;
+    margin: 0;
+}
+
+.image-box {
+    width: 70px;
+}
+
+.company-profile .profile-logo-ctn {
+    position: relative;
+    z-index: 2;
+}
+
+.company-profile .profile-logo-ctn .backlayer {
+    position: absolute;
+    width: 60%;
+    height: 60%;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: -1;
+    border-radius: 50%;
+}
+
+.company-profile .profile-logo-ctn .backlayer::before {
+    position: absolute;
+    content: '';
+    width: 100px;
+    height: 100px;
+    top: 0;
+    left: 0;
+    background: linear-gradient(rgba(0, 110, 255, 0.3), rgba(238, 0, 255, 0.2));
+    z-index: -2;
+    transform: translateX(-25%);
+    border-radius: 50%;
+}
+
+.company-profile .profile-logo-ctn .backlayer::after {
+    position: absolute;
+    content: '';
+    width: 70px;
+    height: 70px;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(rgba(238, 0, 255, 0.3), rgba(0, 255, 255, .2));
+    z-index: -1;
+    border-radius: 50%;
+}
+
+.company-profile .profile-logo-ctn .logo-ctn {
+    width: 40%;
+    height: auto;
+    overflow: hidden;
+}
+
+.company-profile .profile-logo-ctn .logo-ctn img {
+    width: 100%;
+    object-fit: cover;
+}
+
+#jobs-list .list-card .list-img,
+.profile-img-ctn {
+    background: var(--light);
+    width: 80px;
+    height: 80px;
+    display: block;
+}
+
+.paper {
+    width: 70px;
+    height: 70px;
+    display: block;
+    position: relative;
+}
+
+.prof-sm {
+    width: 60px;
+    height: 60px;
+}
+
+.profile-img-ctn {
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.profile-img-ctn a,
+.profile-img-ctn img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.card {
+    height: 100%;
+}
+
+.card .card-icon {
+    width: 70px;
+    height: 70px;
+    text-align: center;
+    padding: 4px;
+    border-radius: 50%;
+    margin: 10px auto;
+    box-shadow: 0 0 0 1px var(--light);
+}
+
+.card .card-icon i {
+    font-size: 3rem;
+    line-height: 3.8rem;
+    color: var(--light);
+}
+
+.card .card-text {
+    padding: 20px;
+}
+
+.card .card-text h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.card .card-text p {
+    font-size: 1rem;
+}
+
+.card .card-image {
+    margin-bottom: 40px;
+    width: 100%;
+    height: 250px;
+    cursor: pointer;
+    background: var(--light);
+    position: relative;
+    overflow: hidden;
+}
+
+.card .card-image .card-image-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    transition: .3s ease;
+}
+
+.card .card-image .card-image-overlay::before {
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    border: 2px solid var(--light);
+    content: "";
+    z-index: -1;
+}
+
+.card .card-image:hover>.card-image-overlay {
+    opacity: 1;
+    visibility: visible;
+}
+
+.card .card-image:hover>img {
+    transform: scale(1.05);
+}
+
+.card .card-image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    transition: .3s ease;
+}
+
+.admin-card {
+    background: var(--lighter);
+    padding: 16px;
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    border-radius: 3px;
+}
+
+.admin-card.category-card {
+    display: block;
+}
+
+.admin-card:hover,
+.bg-c-white {
+    background: var(--white);
+}
+
+.admin-card.users-card {
+    background: var(--white);
+    border: 1px solid var(--faint-light);
+}
+
+.admin-card .report-card-txt {
+    color: var(--white);
+}
+
+.admin-card .no {
+    position: relative;
+    font-size: 2rem;
+    color: var(--dark);
+    padding: 0;
+    font-weight: 500;
+}
+
+.admin-card .name {
+    color: var(--gray);
+    white-space: nowrap;
+}
+
+.admin-card .icon-box {
+    font-size: 2rem;
+    color: var(--faint-light);
+}
+
+
+footer {
+    background: #eee;
+    font-size: .8rem;
+}
+
+footer .foot-menu a {
+    display: inline-block;
+    color: rgba(33, 37, 41, 0.7);
+    border-bottom: 2px solid transparent;
+    text-decoration-color: var(--peach);
+    transition: all .3s ease;
+}
+
+footer .foot-menu a i {
+    margin-right: 10px;
+}
+
+footer .foot-menu a:hover {
+    color: var(--prim);
+    text-decoration-line: underline;
+}
+
+.social-icons a {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+    color: rgba(33, 37, 41, 0.7);
+    background: rgba(0, 0, 0, 0);
+    border-radius: 50%;
+    border: 1px solid rgba(33, 37, 41, 0.7);
+    display: inline-flex;
+    transition: all .3s ease;
+    align-items: center;
+    justify-content: center;
+}
+
+.social-icons a:hover {
+    background: var(--prim);
+    border: 1px solid var(--prim);
+    color: var(--lighter);
+}
+
+.footer-btm {
+    background: #ddd;
+    border-top: 1px solid rgba(33, 37, 41, 0.2);
+    color: rgba(33, 37, 41, 0.7);
+}

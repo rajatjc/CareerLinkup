@@ -1,0 +1,40 @@
+version: 2.1
+jobs:
+  build-3-8:
+    docker:
+      - image: circleci/python:3.8  # Use Python 3.8 image as the primary executor
+    environment:
+      FLASK_ENV: development  # Set the Flask environment to development
+      PYTHONPATH: ./:${PYTHONPATH}
+    steps:
+      - checkout  # Check out the code from the repository
+      - run:
+          name: Install Node.js and npm
+          command: |
+            curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+            sudo apt-get install -y nodejs
+            sudo npm install -g npm  # Update npm to the latest version
+      - run:
+          name: Install Python dependencies
+          command: pip install -r requirements.txt
+      - run:
+          name: Run tests - employers
+          command: pip install itsdangerous==2.0.1; python TestSuite/testing_employers.py
+      - run:
+          name: Run tests - applicants
+          command: pip install itsdangerous==2.0.1; python TestSuite/testing_applicants.py
+      - run:
+          name: Run tests - admin
+          command: pip install itsdangerous==2.0.1; python TestSuite/testing_admin.py
+      - run:
+          name: Run tests - insights/tracker
+          command: pip install itsdangerous==2.0.1; python TestSuite/testing_insights.py
+      - run:
+          name: Run tests - Errors files
+          command: pip install itsdangerous==2.0.1; python TestSuite/testing_errors.py
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build-3-8

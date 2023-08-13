@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>Salary Growth Chart</title>
+{% endblock %}
+
+{% block container %}
+    <div class="mt-5 mb-4">
+        <h1 class="text-center">Salary Growth Chart:</h1>
+        <div class="d-flex justify-content-center">
+            <img src="data:image/png;base64,{{ chart_data }}" alt="Salary Growth Chart" style="max-width: 80%;">
+        </div>
+    </div>
+{% endblock %}
