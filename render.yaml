@@ -1,0 +1,8 @@
+# render.yaml
+
+# Specify the environment for the rendering
+environment:
+  # Use Python 3.10.7 as the runtime version
+  python: 3.10.7
+
+# Other configuration settings can be added here if needed
