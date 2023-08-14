@@ -1,7 +1,7 @@
  # Import necessary modules and classes from Flask and other libraries
 from flask import current_app
 from datetime import datetime
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from itsdangerous import URLSafeTimedSerializer as Serializer
 from CareerLinkup import db, login_manager
 from flask_login import UserMixin
 
