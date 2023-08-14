@@ -3,7 +3,7 @@ bcrypt==4.0.1
 blinker==1.6.2
 certifi==2023.5.7
 click==8.1.5
-dnspython>=2.4.0
+dnspython==1.16.0
 email-validator==2.0.0.post2
 exceptiongroup==1.1.2
 Flask==2.3.2
