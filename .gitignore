@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Local data
+instance/
+*.db
+.env
+
+# Files users upload at runtime (the defaults stay tracked)
+CareerLinkup/static/admin/image/*
+!CareerLinkup/static/admin/image/anony.png
+CareerLinkup/static/applicant/image/*
+!CareerLinkup/static/applicant/image/anony.png
+CareerLinkup/static/applicant/resume/*
+!CareerLinkup/static/applicant/resume/.gitkeep
+CareerLinkup/static/employer/logo/*
+!CareerLinkup/static/employer/logo/company.png
+
+# Editors
+.idea/
+.vscode/
+.DS_Store
