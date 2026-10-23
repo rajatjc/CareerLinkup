@@ -48,7 +48,6 @@ def send_pwd_reset_email(user, role, name):
     token = user.get_reset_token() 
 
     subject = 'Password Reset'
-    sender = ('CareerLinkup', 'saseda0@gmail.com')
     recipients = [user.email]
 
     link = url_for(f'{role}.password_reset_link', token=token, _external=True)
@@ -56,19 +55,17 @@ def send_pwd_reset_email(user, role, name):
     img = url_for('static', filename='img/oj.png', _external=True)
 
     html = render_template('email.html', link=link, name=name, img=img, resend=resend)
-    msg = Message(subject=subject, sender=sender, recipients=recipients, html=html)
+    msg = Message(subject=subject, recipients=recipients, html=html)
     mail.send(msg)
 
 #  sending email to shortlisted applicants
 def send_shortlist_email(email, obj):
 
     subject = 'You are Shortlisted'
-    sender = ('CareerLinkup', 'saseda0@gmail.com')
     recipients = [email]
 
     jobs = url_for('jobs.job_list', _external=True)
-    # img = url_for('static', filename='img/oj.png', _external=True)
 
     html = render_template('email.html', shortlist=obj, jobs=jobs)
-    msg = Message(subject=subject, sender=sender, recipients=recipients, html=html)
+    msg = Message(subject=subject, recipients=recipients, html=html)
     mail.send(msg)

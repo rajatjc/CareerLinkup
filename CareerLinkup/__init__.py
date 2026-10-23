@@ -1,30 +1,31 @@
 # Import necessary modules and libraries
+import matplotlib
+
+matplotlib.use("Agg")  # Charts are rendered to PNG on the server; there is no display to draw on.
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
-import os
-from os import path
-from sqlalchemy import create_engine
 from flask_mail import Mail
 
-# Initialize Flask extensions and other variables
-dir = 'CareerLinkupApp'  # The name of the application directory
+from CareerLinkup.config import Config
+
+# Initialize Flask extensions
 bcrypt = Bcrypt()  # Initialize Bcrypt for password hashing
 db = SQLAlchemy()  # Initialize SQLAlchemy for database management
 login_manager = LoginManager()  # Initialize LoginManager for user authentication
 mail = Mail()  # Initialize Flask-Mail for email support
 
-secret_key = 'secret1234'  # Secret key for session security
 
-# Flask App function with initialized configurations
-def create_app():
+# Flask App function with initialized configurations.
+# Pass a dict of overrides (for example in tests) to replace any setting from Config.
+def create_app(overrides=None):
     app = Flask(__name__)
+    app.config.from_object(Config)
+    if overrides:
+        app.config.update(overrides)
 
-    app.config['SECRET_KEY'] = secret_key  # Set the secret key for session security
-    app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///mydata.db"  # SQLite database URI
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True  # Track database modifications
-    
     db.init_app(app)  # Initialize the SQLAlchemy database with the Flask app
     bcrypt.init_app(app)  # Initialize Bcrypt with the Flask app
     login_manager.init_app(app)  # Initialize LoginManager with the Flask app
@@ -50,15 +51,7 @@ def create_app():
     def numberFormat(value):
         return format(int(value), ',d')
 
-    # Uncomment the following lines during initial database setup to create the tables
-    # db.create_all()
-    # create_db(app)
     with app.app_context():
         db.create_all()
 
     return app
-
-# Function to create the SQLite database in the application directory
-def create_db(app):
-    if not path.exists(f'{dir}/mydata.db'):
-        db.create_all(app=app)
