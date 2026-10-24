@@ -1,13 +1,13 @@
  # Import necessary modules and classes from Flask and other libraries
 from flask import current_app
 from datetime import datetime
-from itsdangerous import URLSafeTimedSerializer as Serializer
+from itsdangerous import BadSignature, URLSafeTimedSerializer as Serializer
 from CareerLinkup import db, login_manager
 from flask_login import UserMixin
 
 @login_manager.user_loader
 def load_user(id):
-    return User.query.get(int(id))
+    return db.session.get(User, int(id))
 
 
 # Association Table for connecting applicants to jobs table using a many-to-many relationship
@@ -33,20 +33,24 @@ class User(db.Model, UserMixin):
     employers = db.relationship('Employer', backref='user', uselist=False, lazy=True)
 
 
-    def get_reset_token(self, expires_sec=1800):
-        s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
-        return s.dumps({'user_id': self.id}).decode('utf-8')
+    # The token carries the tail of the current password hash, so a link stops working once it has been used.
+    def get_reset_token(self):
+        s = Serializer(current_app.config['SECRET_KEY'], salt='password-reset')
+        return s.dumps({'user_id': self.id, 'pw': self.password[-10:]})
 
 
     @staticmethod
     def verify_reset_token(token):
-        s = Serializer(current_app.config['SECRET_KEY'])
+        s = Serializer(current_app.config['SECRET_KEY'], salt='password-reset')
 
         try:
-            user_id = s.loads(token)['user_id']
-        except:
+            data = s.loads(token, max_age=current_app.config['RESET_TOKEN_MAX_AGE'])
+        except BadSignature:
             return None
-        return User.query.get(user_id)
+        user = db.session.get(User, data.get('user_id'))
+        if user is None or user.password[-10:] != data.get('pw'):
+            return None
+        return user
  
  #Applicant model for the 'applicants' table, representing job applicants
 class Applicant(db.Model):

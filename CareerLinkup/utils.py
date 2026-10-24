@@ -58,6 +58,19 @@ def send_pwd_reset_email(user, role, name):
     msg = Message(subject=subject, recipients=recipients, html=html)
     mail.send(msg)
 
+# Handle a submitted "forgot password" form for one kind of account.
+# The reply is the same whether or not the email is registered, so the form can't be used to find accounts.
+def request_password_reset(email, role, display_name):
+    from CareerLinkup.models import User
+
+    user = User.query.filter_by(email=email.lower(), user_role=role).first()
+    if user:
+        try:
+            send_pwd_reset_email(user, role, display_name(user))
+        except Exception:
+            current_app.logger.exception('Could not send the password reset email')
+    flash('If that email belongs to an account, a reset link is on its way.', 'info')
+
 #  sending email to shortlisted applicants
 def send_shortlist_email(email, obj):
 

@@ -186,10 +186,6 @@ class Company_Search(FlaskForm):
 class Forgot_Password(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     submit = SubmitField('Send Email')
-    def validate_email(self, email):
-        exists = User.query.filter_by(email=email.data).first()  
-        if not exists:
-            raise ValidationError('Email Not Registered! Use your account\'s verified Email.') 
 
 
 class Reset_Password(FlaskForm):

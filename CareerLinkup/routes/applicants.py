@@ -10,7 +10,7 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from CareerLinkup import db, bcrypt
 from CareerLinkup.forms import User_Login, Applicant_Signup, Applicant_User_Update, Forgot_Password, Reset_Password
 from CareerLinkup.models import User, Applicant, Job, jobs_applied as applied
-from CareerLinkup.utils import save_file, remove_file, user_role_required, send_pwd_reset_email
+from CareerLinkup.utils import save_file, remove_file, user_role_required, request_password_reset
 
 
 
@@ -116,18 +116,8 @@ def password_reset_request():
     form = Forgot_Password()
 
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        if user:
-            try:
-                send_pwd_reset_email(user, 'applicant', user.applicants.f_name)
-                flash('A password reset link has been sent to your email', 'info')
-                return redirect(url_for('.applicant_login'))
-            except:
-                flash('Something went wrong! Please Try Again.', 'warning')
-                return redirect(url_for('.password_reset_request'))
-        else:
-            flash('Email not registered. Send the email you registered your account with.', 'warning')
-            return redirect(url_for('.password_reset_request'))
+        request_password_reset(form.email.data, 'applicant', lambda user: user.applicants.f_name)
+        return redirect(url_for('.applicant_login'))
     return render_template("forgot_password.html", title="Applicant | Reset Password", form=form)
 
 # Applicant user password reset token

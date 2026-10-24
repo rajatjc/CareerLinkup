@@ -2,7 +2,7 @@ from flask import render_template, Blueprint, url_for, flash, redirect, request,
 from CareerLinkup import db, bcrypt
 from CareerLinkup.forms import User_Login, Employer_Signup, Employer_User_Update, Job_Add, Job_Update, Forgot_Password, Reset_Password, Company_Search
 from CareerLinkup.models import User, Employer, Job, jobs_applied, Applicant
-from CareerLinkup.utils import save_file, user_role_required, remove_file, send_pwd_reset_email
+from CareerLinkup.utils import save_file, user_role_required, remove_file, request_password_reset
 from flask_login import login_user, current_user
 
 employer = Blueprint('employer', __name__)
@@ -218,18 +218,8 @@ def password_reset_request():
     form = Forgot_Password()
 
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        if user:
-            try:
-                send_pwd_reset_email(user, 'employer', user.employers.name)
-                flash('A password reset link has been sent to your email', 'info')
-                return redirect(url_for('.employer_login'))
-            except:
-                flash('Something went wrong! Please Try Again.', 'warning')
-                return redirect(url_for('.password_reset_request'))
-        else:
-            flash('Email not registered. Send the email you registered your account with.', 'warning')
-            return redirect(url_for('.password_reset_request'))
+        request_password_reset(form.email.data, 'employer', lambda user: user.employers.name)
+        return redirect(url_for('.employer_login'))
     return render_template("forgot_password.html", title="Employer | Reset Password", form=form)
 
 # Employer user password reset token
