@@ -100,7 +100,10 @@
                                 <span class="text-warning ms-2">Pending</span>
                             {% endif %}
                         {% else %}
-                            <a href="{{ url_for('applicant.apply_for_job', job_id=job.id) }}" class="btn btn-sm btn-brand prim text-light d-sm-inline-block d-block">Send Application</a>
+                            <form action="{{ url_for('applicant.apply_for_job', job_id=job.id) }}" method="post" class="d-sm-inline-block">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <button type="submit" class="btn btn-sm btn-brand prim text-light d-sm-inline-block d-block w-100">Send Application</button>
+                            </form>
                         {% endif %}
                     </div>
                 </div>

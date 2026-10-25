@@ -2,7 +2,7 @@ from flask import render_template, Blueprint, url_for, flash, redirect, request,
 from CareerLinkup import db, bcrypt
 from CareerLinkup.forms import Applicant_Add, Applicant_Update, Employer_Add, Employer_Update, User_Login, Admin_Update, Admins_Add, Admins_Edit, Job_Add, Job_Update, Forgot_Password, Reset_Password
 from CareerLinkup.models import Admin, User, Job, Employer, Applicant, jobs_applied
-from CareerLinkup.utils import user_role_required, save_file, remove_file, request_password_reset
+from CareerLinkup.utils import user_role_required, save_file, remove_file, request_password_reset, safe_next
 from flask_login import login_user, current_user
 import pdfkit
 
@@ -563,7 +563,7 @@ def admin_login():
             login_user(user, remember=form.remember.data)
             flash(f'Admin Login successs.', 'success')
 
-            return redirect(request.args.get('next') or url_for('.admin_account'))
+            return redirect(safe_next(url_for('.admin_account')))
         else:
             flash(f'Invalid Email or Password! Please Try Again.', 'danger')
     return render_template("admin/login.html", title="CareerLinkup | Admin Login", form=form)

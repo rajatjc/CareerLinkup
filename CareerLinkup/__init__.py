@@ -8,6 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
+from flask_wtf.csrf import CSRFProtect
 
 from CareerLinkup.config import Config
 
@@ -16,6 +17,7 @@ bcrypt = Bcrypt()  # Initialize Bcrypt for password hashing
 db = SQLAlchemy()  # Initialize SQLAlchemy for database management
 login_manager = LoginManager()  # Initialize LoginManager for user authentication
 mail = Mail()  # Initialize Flask-Mail for email support
+csrf = CSRFProtect()  # Require a CSRF token on every POST, not just the WTForms ones
 
 
 # Flask App function with initialized configurations.
@@ -30,6 +32,7 @@ def create_app(overrides=None):
     bcrypt.init_app(app)  # Initialize Bcrypt with the Flask app
     login_manager.init_app(app)  # Initialize LoginManager with the Flask app
     mail.init_app(app)  # Initialize Flask-Mail with the Flask app
+    csrf.init_app(app)  # Initialize CSRF protection with the Flask app
 
     # Import and register blueprints for different parts of the application
     from .routes.main import main

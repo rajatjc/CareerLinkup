@@ -38,6 +38,7 @@
                                         </div>
                                         <div class="modal-body py-5">
                                             <form action="{{ url_for('employer.send_message', applicant_id=user.id) }}" method="post">
+                                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                               <div class="mb-3">
                                                 <label for="subject" class="col-form-label">Subject:</label>
                                                 <input type="text" class="form-control" id="subject">
@@ -76,9 +77,12 @@
                                             </p>
                                             <button class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#text-user{{user.id}}" >Message <i class="fa fa-send"></i></button>
                                             {% if not listed %}
-                                                <a href="{{ url_for('employer.list_applicant', applicant_id=user.id, job_id=job.id) }}" class="btn btn-sm btn-success">
-                                                    Shortlist <i class="fa fa-user-plus"></i>
-                                                </a>
+                                                <form action="{{ url_for('employer.list_applicant', applicant_id=user.id, job_id=job.id) }}" method="post" class="d-inline">
+                                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                                    <button type="submit" class="btn btn-sm btn-success">
+                                                        Shortlist <i class="fa fa-user-plus"></i>
+                                                    </button>
+                                                </form>
                                             {% else %}
                                                 <button class="btn btn-sm btn-success disabled" >Listed <i class="fa fa-check-square-o"></i></button>
                                             {% endif %}

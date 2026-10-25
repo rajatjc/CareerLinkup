@@ -79,6 +79,7 @@
                 <div class="bg-c-lighter my-3 p-3 d-flex">
                     <h4 class="" >{{ title1 }}</h4>
                     <form action="{{ url_for('admin.print_report', report='summery') }}" method="post" class="ms-auto">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                         <button type="submit" class="btn btn-sm btn-primary" ><i class="fa fa-print" aria-hidden="true"></i> Print</button>
                     </form>
                 </div>

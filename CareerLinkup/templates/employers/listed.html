@@ -40,6 +40,7 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
                                             <form action="{{ url_for('employer.unlist_applicant', job_id=job.id, applicant_id=user.id) }}" method="post">
+                                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                                 <input type="submit" class="btn btn-sm btn-danger" value="Delete">
                                             </form>
                                         </div>

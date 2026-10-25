@@ -73,6 +73,7 @@
                     <div class="card-body">
                         <h1 class="text-center mb-4">Salary Growth Comparison</h1>
                         <form method="POST" action="{{ url_for('main.salary_growth_comparison') }}">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                             <div class="mb-3">
                                 <label for="current_salary" class="form-label">Enter Your Current Salary:</label>
                                 <input type="number" step="0.01" name="current_salary" id="current_salary" class="form-control" required>

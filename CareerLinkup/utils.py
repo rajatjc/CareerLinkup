@@ -30,15 +30,22 @@ def remove_file(file):
     file_path = os.path.join(current_app.root_path, f'static/{file}')
     os.remove(file_path)
 
+# Where to go after logging in. Only same-site paths are honoured, so a crafted
+# ?next=https://evil.example link can't bounce a user off the site.
+def safe_next(default):
+    target = request.args.get('next', '')
+    if target.startswith('/') and not target.startswith('//') and '\\' not in target:
+        return target
+    return default
+
 # Authorize authenticated users
 def user_role_required(role):
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
             if not current_user.is_authenticated or current_user.user_role != role:
-                url = request.url
                 flash(f'{role.capitalize()} Login Required for this Page!', category='info')
-                return redirect(url_for(f'{role.lower()}.{role.lower()}_login', next= url))
+                return redirect(url_for(f'{role.lower()}.{role.lower()}_login', next=request.full_path))
             return f(*args, **kwargs)
         return decorated_function
     return decorator

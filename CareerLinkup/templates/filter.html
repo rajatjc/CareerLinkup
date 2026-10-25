@@ -111,7 +111,8 @@
                 method: "POST",
                 body: JSON.stringify({ name, location, tagline }),
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": "{{ csrf_token() }}"
                 }
             })
             .then(response => response.json())

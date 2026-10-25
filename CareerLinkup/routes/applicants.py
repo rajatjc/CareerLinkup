@@ -10,7 +10,7 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from CareerLinkup import db, bcrypt
 from CareerLinkup.forms import User_Login, Applicant_Signup, Applicant_User_Update, Forgot_Password, Reset_Password
 from CareerLinkup.models import User, Applicant, Job, jobs_applied as applied
-from CareerLinkup.utils import save_file, remove_file, user_role_required, request_password_reset
+from CareerLinkup.utils import save_file, remove_file, user_role_required, request_password_reset, safe_next
 
 
 
@@ -28,12 +28,16 @@ def applicant_account():
     return render_template("applicants/account.html", title="Applicant | Account", user=user, jobs=jobs, shortlists=shortlists)
 
 
-@applicant.route("/applicant/application/<int:job_id>")
+@applicant.route("/applicant/application/<int:job_id>", methods=['POST'])
 @user_role_required('applicant')
 def apply_for_job(job_id):
     user = current_user.applicants
     job = Job.query.get_or_404(job_id)
-    
+
+    if job in user.applied_jobs:
+        flash(f'You have already applied for this job.', 'info')
+        return redirect(url_for('.jobs_applied'))
+
     user.applied_jobs.append(job)
     db.session.commit()
 
@@ -102,7 +106,7 @@ def applicant_login():
             match = Applicant.query.filter_by(user_id=user.id).first()
             login_user(user)
             flash(f'Logged in as {match.l_name}!', 'success')
-            return redirect(request.args.get('next') or url_for('.applicant_account'))
+            return redirect(safe_next(url_for('.applicant_account')))
         else:
             flash(f'Invalid Email or Password! Please Try Again.', 'danger')
     return render_template("applicants/login.html", title="CareerLinkup | Applicant Login", form=form)

@@ -2,7 +2,7 @@ from flask import render_template, Blueprint, url_for, flash, redirect, request,
 from CareerLinkup import db, bcrypt
 from CareerLinkup.forms import User_Login, Employer_Signup, Employer_User_Update, Job_Add, Job_Update, Forgot_Password, Reset_Password, Company_Search
 from CareerLinkup.models import User, Employer, Job, jobs_applied, Applicant
-from CareerLinkup.utils import save_file, user_role_required, remove_file, request_password_reset
+from CareerLinkup.utils import save_file, user_role_required, remove_file, request_password_reset, safe_next
 from flask_login import login_user, current_user
 
 employer = Blueprint('employer', __name__)
@@ -178,7 +178,7 @@ def employer_login():
             login_user(user)
             flash(f'Login successs.', 'info')
 
-            return redirect(request.args.get('next') or url_for('.employer_account'))
+            return redirect(safe_next(url_for('.employer_account')))
         else:
             flash(f'Invalid Email or Password! Please Try Again.', 'danger')
     return render_template("employers/login.html", title="CareerLinkup | Employer Login", form=form)
@@ -316,35 +316,30 @@ def listed_applicants():
 
 
 
-# Sending emails to shortlisted applicants
-@employer.route("/employer/send-message/<int:applicant_id>", methods=['GET', 'POST'])
+# Messaging applicants from the candidate list isn't built yet; the modal posts here.
+@employer.route("/employer/send-message/<int:applicant_id>", methods=['POST'])
 @user_role_required('employer')
 def send_message(applicant_id):
-    pass
+    flash('Messaging applicants is not available yet.', 'info')
+    return redirect(request.referrer or url_for('.applicants'))
 
-# Listing candidates and Sending email notifications to shortlisted applicants
-@employer.route("/employer/list-applicant/<int:job_id>/<int:applicant_id>")
+# Shortlisting an applicant for one of this employer's jobs
+@employer.route("/employer/shortlist/<int:job_id>/<int:applicant_id>", methods=['POST'])
 @user_role_required('employer')
 def list_applicant(job_id, applicant_id):
     user = current_user.employers
     job = Job.query.get_or_404(job_id)
-    applicant = Applicant.query.filter_by(id=applicant_id).first()
-    email=User.query.filter_by(id=applicant.user_id).first().email
     if not job.company == user:
         abort(403)
 
-    db.session.query(jobs_applied).filter((jobs_applied.c.job_id==job_id)&(jobs_applied.c.applicant_id==applicant_id)).update(dict(shortlisted = True))
-    list = db.session.query(Job, Applicant, jobs_applied.c.date_applied).select_from(Job).join(jobs_applied).join(Applicant).filter((jobs_applied.c.job_id==job_id)&(jobs_applied.c.applicant_id==applicant_id)).first()
+    application = jobs_applied.c
+    updated = db.session.query(jobs_applied).filter((application.job_id==job_id)&(application.applicant_id==applicant_id)).update(dict(shortlisted = True))
+    if not updated:
+        abort(404)  # this applicant never applied to this job
+    db.session.commit()
 
-    try:
-        # send_shortlist    (email, dict(list))
-        db.session.commit()
-
-        flash(' Applicant listed Successfully', 'success')
-        return redirect(url_for('.listed_applicants'))
-    except:
-        flash('Something went wrong! Please Try Again.', 'warning')
-        return redirect(url_for('.applicants'))
+    flash(' Applicant listed Successfully', 'success')
+    return redirect(url_for('.listed_applicants'))
 
 @employer.route("/employer/list-applicant/<int:job_id>/<int:applicant_id>",  methods=['POST'])
 @user_role_required('employer')

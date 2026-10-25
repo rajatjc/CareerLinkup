@@ -201,6 +201,7 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
                                             <form action="{{ url_for('admin.admin_job_remove', job_id=job.id) }}" method="post">
+                                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                                 <input type="submit" class="btn btn-sm btn-danger" value="Remove">
                                             </form>
                                         </div>
