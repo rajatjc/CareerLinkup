@@ -1,5 +1,6 @@
 
 import io
+from xml.sax.saxutils import escape
 
 from flask import Blueprint, url_for, flash, redirect, abort, request, render_template, make_response
 from flask_login import login_user, current_user
@@ -65,6 +66,8 @@ def shortlisted_jobs():
 def remove_job(job_id):
     user = current_user.applicants
     job = Job.query.get_or_404(job_id)
+    if job not in user.applied_jobs:
+        abort(404)
     user.applied_jobs.remove(job)
 
     db.session.commit()
@@ -224,12 +227,14 @@ def applicant_signup():
 @applicant.route("/applicant/create-resume", methods=["GET", "POST"])
 def create_resume():
     if request.method == "POST":
-        name = request.form.get("name")
-        email = request.form.get("email")
-        phone = request.form.get("phone")
-        summary = request.form.get("summary")
-        education = request.form.get("education")
-        experience = request.form.get("experience")
+        # ReportLab paragraphs parse their text as markup, so a stray "<" or "&" would break the PDF.
+        field = lambda key: escape(request.form.get(key, ""))
+        name = field("name")
+        email = field("email")
+        phone = field("phone")
+        summary = field("summary")
+        education = field("education")
+        experience = field("experience")
 
         buffer = io.BytesIO()
         doc = SimpleDocTemplate(buffer, pagesize=letter)

@@ -122,6 +122,11 @@ def demographic_visualization():
         else:
             demographics[location] = 1
 
+    # Matplotlib can't draw a pie with no slices
+    if not demographics:
+        flash('No employers have signed up yet, so there is nothing to chart.', 'info')
+        return redirect(url_for('.home'))
+
     # Create the pie chart
     plt.figure(figsize=(8, 8))
     colors = ['red', 'blue', 'green', 'orange', 'purple']  # Add more colors as needed
@@ -140,7 +145,13 @@ def demographic_visualization():
 @main.route('/salary_growth', methods=['GET', 'POST'])
 def salary_growth_comparison():
     if request.method == 'POST':
-        current_salary = float(request.form['current_salary'])
+        try:
+            current_salary = float(request.form.get('current_salary', ''))
+        except ValueError:
+            current_salary = 0
+        if current_salary <= 0:
+            flash('Enter your current salary as a positive number.', 'warning')
+            return render_template('input_page_for_chart.html'), 400
 
         # Retrieve all jobs from the database
         all_jobs = Job.query.all()
@@ -148,8 +159,7 @@ def salary_growth_comparison():
 
         for job in all_jobs:
             if job.salary > 0:  # Considering only jobs with a valid salary
-                # Fetch the company name from the corresponding Employer record
-                company_name = Employer.query.filter_by(id=job.company_id).first().name
+                company_name = job.company.name
                 salary_growth = ((job.salary - current_salary) / current_salary) * 100
                 salary_growth_data.append((f"{company_name}: {job.title}", salary_growth))
 

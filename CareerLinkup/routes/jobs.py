@@ -54,8 +54,8 @@ def filtered(category):
 def job_search():
     form1 = Job_Search()
     form = request.form
-    title_or_category = form['title']
-    location = form['location']
+    title_or_category = form.get('title', '').strip()
+    location = form.get('location', '').strip()
     search1 = "%{0}%".format(title_or_category)
     search2 = "%{0}%".format(location)
 
