@@ -1,0 +1,9 @@
+.git
+.github
+venv
+.venv
+instance
+tests
+**/__pycache__
+*.db
+Test cases.xlsx
