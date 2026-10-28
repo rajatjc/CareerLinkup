@@ -1,147 +1,102 @@
 # CareerLinkup
 
-## Description
-CareerLinkup is a web application that serves as a comprehensive career services platform, connecting job seekers with employers. The platform facilitates the job search process by allowing job seekers to create and update their portfolios and enabling employers to post job offers. With CareerLinkup, users can easily find and apply for relevant job opportunities, while employers can efficiently search and shortlist candidates. The platform aims to streamline the hiring process, benefitting both job seekers and employers.
+[![CI](https://github.com/rajatjc/CareerLinkup/actions/workflows/ci.yml/badge.svg)](https://github.com/rajatjc/CareerLinkup/actions/workflows/ci.yml)
 
-## Team Name: JAN-Soen6011summer2023
+A job board built with Flask. Employers post jobs and shortlist applicants, job seekers apply with a
+resume, and admins manage everyone and export reports. Built by a team of six for SOEN 6011 at
+Concordia University, summer 2023.
 
-### Team Members (Name, Github Username, Role)
+## What it does
 
-- Arpit Sehgal: [arpit1102](https://github.com/arpit1102) : Team Lead and Backend Devleoper
-- Rajat Sharma: [rajatjc](https://github.com/rajatjc) :  Backend Developer + Documentation
-- Jatish Bhatia: [jatishbhatia](https://github.com/jatishbhatia) : Database Developer + Minutes of Meeting
-- Vikram Singh Brahm: [vikramsinghbrahm](https://github.com/vikramsinghbrahm) : Documentation + Integration Tester
-- Harika Maddukuri: [harika89](https://github.com/harika89) : UI/UX Developer
-- Nandini Bibra: [nandinibibra-96](https://github.com/nandinibibra-96) : Database Developer
+| Role | Can |
+|------|-----|
+| **Applicant** | Sign up with a resume, search jobs by title, category and location, apply, see which applications were shortlisted, withdraw, generate a PDF resume from a form |
+| **Employer** | Create a company profile, post, edit and remove jobs, review applicants per job, shortlist them |
+| **Admin** | Manage applicants, employers, jobs and other admins; dashboard counts; reports by company, location, job and application, printable as PDF |
+| **Anyone** | Browse jobs and companies, filter employers, charts of applicants per company, employers per city and salary growth against your current pay |
 
-### Roles and Responsibilities
+All three roles get password reset by email, using signed links that expire after 30 minutes and stop
+working once used.
 
-- Arpit Sehgal:
-  - Serve as the Team Lead and monitor development.
-  - Backend development using Python.
-  - Code Review.
-  - Documentation
+## Run it locally
 
-- Rajat:
+Requires Python 3.12 or newer.
 
-  - Write Python programs to facilitate backend logic.
-  - Conduct regular code reviews.
-  - Host the web service.
-  - Documentation.
+```bash
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+flask --app main seed      # optional: demo companies, jobs and accounts
+python main.py             # http://localhost:5002
+```
 
-- Jatish Bhatia:
-  - Write Python programs to facilitate backend logic.
-  - Conduct regular code reviews.
-  - Host the web service.
-  - Documentation.
+`flask --app main seed` prints the demo logins (all use the password `password123`). On a database with no
+admin yet, `/admin/create` makes the first admin account.
 
-- Vikram Singh Brahm:
-  - Perform integration/beta testing.
-  - Documentation.
-  - Generate automation scripts if required.
-  - UI development
+### Configuration
 
-- Harika:
-  - Create UI/UX design for the application.
-  - Document the code.
-  - Conduct code reviews.
+Everything has a local default, so none of these are required for development.
 
-- Nandini Bibra:
-  - Design database architecture
-  - Work on developing the database and managing data.
-  - Document all the tabular and code data.
-  - Conduct code reviews.
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| `SECRET_KEY` | random per process | Signs sessions and reset links. Set it in production, or every restart logs everyone out. |
+| `DATABASE_URL` | `sqlite:///mydata.db` (in `instance/`) | Any SQLAlchemy URL |
+| `MAIL_SERVER`, `MAIL_PORT`, `MAIL_USE_TLS`, `MAIL_USERNAME`, `MAIL_PASSWORD`, `MAIL_SENDER` | `localhost:25` | SMTP for reset emails |
+| `FLASK_DEBUG` | off | `1` turns on the debugger |
 
+PDF export of admin reports uses [pdfkit](https://pypi.org/project/pdfkit/), which needs the
+`wkhtmltopdf` binary on the path.
 
-## Flask Application Setup and Running
+### Docker
 
-### Prerequisites
+```bash
+docker build -t careerlinkup .
+docker run -p 8000:8000 -e SECRET_KEY=change-me -v careerlinkup-data:/app/instance careerlinkup
+```
 
-- Python 3.10.7
-- virtualenv
+## Tests
 
-### Installation
+```bash
+pip install -r requirements-dev.txt
+pytest
+```
 
-1. Check Python version:
+The suite runs against an in-memory SQLite database and covers every public page, login for each role,
+signup, password reset, the apply → shortlist → withdraw flow, ownership checks between employers, the
+admin pages, the charts, CSRF and the seed command. GitHub Actions runs it on Python 3.12 and 3.13 and
+then builds and starts the Docker image.
 
-   ```python3 --version```
+## How it's built
 
-   Output:
+```
+main.py                  entry point (python main.py or gunicorn main:app)
+CareerLinkup/
+  __init__.py            app factory: extensions, blueprints, CSRF
+  config.py              settings from environment variables
+  models.py              User, Applicant, Employer, Admin, Job and the jobs_applied link table
+  forms.py               Flask-WTF forms and validation
+  utils.py               uploads, role checks, reset emails, safe redirects
+  seed.py                `flask seed` demo data
+  routes/                one blueprint per area: main, jobs, applicants, employers, admin, errors
+  templates/, static/
+tests/                   pytest suite
+```
 
-   ```Python 3.10.7```
+- **Flask** with blueprints, **SQLAlchemy** models on SQLite, **Flask-Login** for sessions, and
+  **Flask-Bcrypt** for password hashes.
+- **Flask-WTF** for forms. CSRF protection covers every POST, including the JSON employer filter.
+- **Matplotlib** draws the charts on the server as PNGs. **ReportLab** builds the resume PDFs.
+- Each user row has a role (`applicant`, `employer`, `admin`) and a one-to-one profile. A
+  `user_role_required` decorator guards each area.
 
-2. Install virtualenv:
+## Team
 
-   ```pip install virtualenv```
+Team JAN-Soen6011summer2023:
 
-3. Create a virtual environment:
+- Arpit Sehgal ([arpit1102](https://github.com/arpit1102)): team lead, backend
+- Rajat Sharma ([rajatjc](https://github.com/rajatjc)): backend, hosting, documentation
+- Jatish Bhatia ([jatishbhatia](https://github.com/jatishbhatia)): database, backend
+- Vikram Singh Brahm ([vikramsinghbrahm](https://github.com/vikramsinghbrahm)): integration testing, UI
+- Harika Maddukuri ([harika89](https://github.com/harika89)): UI/UX
+- Nandini Bibra ([nandinibibra-96](https://github.com/nandinibibra-96)): database design
 
-   ```virtualenv venv```
-
-4. Activate the virtual environment (on macOS/Linux):
-
-   ```source venv/bin/activate```
-
-   or (on Windows):
-   
-   ```venv\Scripts\activate```
-
-5. Install the required dependencies for the Flask application from `requirements.txt`:
-
-   ```pip install -r requirements.txt```
-
-### Running
-
-1. After setting up the virtual environment and installing the requirements, you can run the main Python file of the Flask application:
-
-   ```python3 main.py```
-
-2. The Flask application will be running locally on your machine at `http://localhost:5002/`. Open this URL in your web browser to access the application.
-
-### Deactivating the Virtual Environment
-
-After you're done using the Flask application, you can deactivate the virtual environment by running:
-
-```deactivate```
-
-
-### Project Approach and Technology
-The project follows an Agile development approach, allowing for iterative and incremental development. HTML, CSS and Javascript are used for developing the user interface while python is used as the programming language for developing backend logic. Flask, a python module is used to launch the application as a web service so make the program platform independent and provide the end user with a browser based application experience.SQLAlchemy will be used to maintain database for all services and core features.
-
-### Reasoning behind technologies
-- Flask:
-  - The primary purpose to choose Flask is its ease of use.
-  - Flask is a lightweight and easy-to-use web framework for Python, making it ideal for small to medium-sized projects like our Employee Portal.
-  - It provides essential tools and features needed for building web applications while allowing for flexibility and scalability.
-
-- Python:
-  - Python is known to majority of team members.
-  - Python is a versatile and widely-used programming language, known for its simplicity and readability.
-  - Using Python allows for rapid development, reducing the time needed to implement features and maintain the application.
-
-- SQLite:
-  - SQLite is free for use for the project.
-  - SQLite is a self-contained, serverless, and zero-configuration database engine, perfect for lightweight web applications.
-  - It simplifies the setup process, as it doesn't require a separate database server, making it suitable for our small-scale Employee Portal.
-
-- HTML:
-  - HTML is the standard markup language used for creating the structure of web pages.
-  - It's essential for defining the layout and content of the Employee Portal's user interface.
-
-- CSS:
-  - CSS (Cascading Style Sheets) is used to style and format the HTML elements on the web pages.
-  - By using CSS, we can make the Employee Portal visually appealing and user-friendly.
-
-## Features
-
-- User Registration and Login: Job seekers and employers can create accounts and securely log in to the platform.
-- Profile Creation and Management: Job seekers can build and update their portfolios, tailoring them to market requirements. Employers can create and manage their company profiles, showcasing their brand and values.
-- Job Posting and Browsing: Employers can post job offers, including comprehensive details such as job descriptions, requirements, and application deadlines. Job seekers can easily search and browse available job offers based on their preferences and qualifications.
-- Application Submission: Job seekers can apply for job offers by submitting their resumes and tailored cover letters, demonstrating their suitability for the position.
-- Candidate Selection and Interview Management: Employers can review applications and select candidates for interviews. Both employers and job seekers receive notifications to stay informed throughout the hiring process.
-- Job Recommendations: The platform includes a job recommendation system that suggests relevant job offers to job seekers based on their skills, experience, and preferences.
-- Messaging and Communication: The platform provides a messaging system that allows job seekers and employers to communicate with each other, facilitating the interview scheduling and information exchange process.
-- Notifications: Users receive notifications for various activities such as application status updates, interview invitations, and new job postings.
-- Responsive User Interface: The user interface is designed to be responsive and accessible across different devices, ensuring a seamless user experience on desktops, tablets, and mobile devices.
-- Analytics and Reporting: The platform includes analytics and reporting features that provide insights into application statistics, job posting performance, and user engagement, helping employers make data-driven decisions.
-
+`Test cases.xlsx` holds the team's original manual test plan.

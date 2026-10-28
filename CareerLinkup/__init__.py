@@ -49,6 +49,10 @@ def create_app(overrides=None):
     app.register_blueprint(errors)  # Blueprint for error handlers
     app.register_blueprint(admin)  # Blueprint for admin route
 
+    # `flask --app main seed` fills an empty database with demo data
+    from .seed import seed_command
+    app.cli.add_command(seed_command)
+
     # Custom template filter to format numbers with commas for thousands separator
     @app.template_filter()
     def numberFormat(value):
