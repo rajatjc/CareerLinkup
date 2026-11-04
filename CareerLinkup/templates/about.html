@@ -1,132 +1,64 @@
-
 {% extends 'base.html' %}
-                          
-{% block logged_out %}
-    <li>
-        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('main.home')}}">Home</a>
-    </li>
-    <li>
-        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('jobs.job_list')}}">Jobs</a>
-    </li>
-    <li>
-        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.company_list')}}">Companies</a>
-    </li>
-    <li>
-        <a class="nav-link ps-sm-auto ps-2 active" href="{{url_for('main.about')}}">About Us</a>
-    </li>
-    <li class="nav-item dropdown">
-        <a class="nav-link ps-sm-auto ps-2 dropdown-toggle" href="#" id="navbarDropdown" role="button"
-            data-bs-toggle="dropdown" aria-expanded="false">
-            Login</a>
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="{{url_for('employer.employer_login')}}">Employer</a></li>
-            <li><a class="dropdown-item" href="{{url_for('applicant.applicant_login')}}">Applicant</a></li>
-            <li>
-                <hr class="dropdown-divider">
-            </li>
-            <li><a class="dropdown-item" href="{{url_for('admin.admin_login')}}">Admin</a></li>
-            
-        </ul>
-    </li>
-{% endblock %}
 
 {% block container %}
-    <section id="about" class="py-5 text-center">
-        <div class="container">
-            <div class="row m-auto">
-                <div class="row m-0 p-0">
-                    <div class="col-lg-4 col-md-4 col-12 image-ctn bg-light mb-3">
-                        <img class="" src="{{url_for('static', filename='img/hop.jpg')}}" alt="">
+<section id="about" class="page-section">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-5 reveal">
+                <img class="about-photo" src="{{url_for('static', filename='img/hop.jpg')}}" alt="A team working together at a table with laptops and notebooks">
+            </div>
+            <div class="col-lg-7 reveal" style="--d:.1s">
+                <span class="eyebrow">About us</span>
+                <h1 class="page-title">Connecting job seekers with <span class="grad-text">the right employers</span></h1>
+                <p class="lead-text">CareerLinkup is a job portal that makes the search and the hiring process simpler for both sides.</p>
+                <div class="about-points">
+                    <div>
+                        <h2>For job seekers</h2>
+                        <p>Filter and browse openings, apply with your resume, track which applications were shortlisted, and build a clean PDF resume.</p>
                     </div>
-                    <div class="col-lg-8 col-md-8 col-12 ">
-                        <h2 class=" ">Who We Are</h2>
-                        <p>
-                            At CareerLinkup, we are a leading job portal website based in Canada. Our mission is to connect job seekers with the best career opportunities and employers with top talent. We understand the challenges of finding the right job or hiring the right candidate, and that's why we have created a platform that streamlines the entire process.
-
-                            As a team, we are committed to providing a seamless and user-friendly experience for both job seekers and employers. Our extensive database of job listings covers various industries, ensuring that individuals from all walks of life can find the perfect job that aligns with their skills and aspirations.
-                            
-                            For job seekers, we offer a comprehensive search feature that allows them to filter and browse through a wide range of job openings. Additionally, our Career Builder services provide valuable resources, career advice, and professional development opportunities to empower individuals in their career journey.
-                            
-                            On the employer's side, we offer a straightforward and efficient platform to post job openings and reach a diverse pool of qualified candidates. Our goal is to assist companies in finding the best-suited individuals who will contribute to their growth and success.
-                            
-                            At CareerLinkup, we take pride in our commitment to quality, efficiency, and reliability. With our experience and dedication, we aim to be the go-to destination for all job-related needs in Canada. Whether you are a job seeker looking to advance your career or an employer seeking top talent, CareerLinkup is here to support and guide you every step of the way.
-                            
-                            
-                            
-                            
-                            
-
-                        </p>
+                    <div>
+                        <h2>For employers</h2>
+                        <p>Post openings, review applicants for each job, and shortlist the people who fit, all from one dashboard.</p>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section id="services" class="py-5 text-center">
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <div class="section-header">
-                        <h2 class="">Explore Our Job Portal Services</h2>
-                    </div>
+<section id="services" class="page-section pt-0">
+    <div class="container">
+        <div class="text-center mb-4 reveal">
+            <h2 class="page-subtitle">What you can do here</h2>
+        </div>
+        <div class="row g-3">
+            <div class="col-md-4 reveal">
+                <div class="feature-card d-flex flex-column">
+                    <span class="feature-icon"><i class="fa fa-search" aria-hidden="true"></i></span>
+                    <h3>Find jobs</h3>
+                    <p>Search by title, category and location, then apply in a couple of clicks.</p>
+                    <a class="btn btn-brand btn-sm mt-3 align-self-start" href="{{ url_for('jobs.job_list') }}">Explore jobs</a>
                 </div>
             </div>
-            <div class="row row-cols-lg-3 row-cols-md-2 row-cols-1 g-3">
-                <div class="col">
-                    <div class="card">
-                        <span class="card-icon"><i class="fa fa-search"></i></span>
-                        <div class="card-text">
-                            <h3>Find Jobs</h3>
-                            <p>
-                                Discover your dream job with ease on our job portal. Our comprehensive search features
-                                allow you to browse through a wide range of job listings and filter results based on your
-                                preferences. Whether you're a seasoned professional or just starting your career, we've got
-                                the perfect job waiting for you.
-                            </p>
-                            <a class="btn btn-sm btn-brand peach text-light" href="#" role="button">
-                                Explore Jobs
-                            </a>
-                        </div>
-                    </div>
+            <div class="col-md-4 reveal" style="--d:.08s">
+                <div class="feature-card d-flex flex-column">
+                    <span class="feature-icon"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                    <h3>Post jobs</h3>
+                    <p>Create a company profile, publish openings and reach candidates.</p>
+                    <a class="btn btn-brand btn-sm mt-3 align-self-start" href="{{ url_for('employer.employer_signup') }}">Register as employer</a>
                 </div>
-                <div class="col">
-                    <div class="card">
-                        <span class="card-icon"><i class="fa fa-plus"></i></span>
-                        <div class="card-text">
-                            <h3>Post Jobs</h3>
-                            <p>
-                                Are you an employer looking to hire talented individuals for your company? Look no further!
-                                Our job portal offers a simple and efficient platform to post job openings. Reach a vast
-                                pool of qualified candidates and streamline your hiring process for success.
-                            </p>
-                            <a class="btn btn-sm btn-brand peach text-light" href="#" role="button">
-                                Post Jobs
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <span class="card-icon"><i class="fa fa-suitcase"></i></span>
-                        <div class="card-text">
-                            <h3>Career Builder</h3>
-                            <p>
-                                Take your career to new heights with our Career Builder services. Our platform offers valuable
-                                resources, career advice, and professional development opportunities to empower you in your
-                                professional journey. Enhance your skills, network with industry experts, and unlock your true
-                                potential.
-                            </p>
-                            <a class="btn btn-sm btn-brand peach text-light" href="#" role="button">
-                                Build Your Career
-                            </a>
-                        </div>
-                    </div>
+            </div>
+            <div class="col-md-4 reveal" style="--d:.16s">
+                <div class="feature-card d-flex flex-column">
+                    <span class="feature-icon"><i class="fa fa-file-text-o" aria-hidden="true"></i></span>
+                    <h3>Build a resume</h3>
+                    <p>Fill in a short form and download a tidy PDF resume.</p>
+                    <a class="btn btn-brand btn-sm mt-3 align-self-start" href="{{ url_for('applicant.create_resume') }}">Open resume builder</a>
                 </div>
             </div>
         </div>
-    </section>
-   
+    </div>
+</section>
 {% endblock %}
 
 {% block script %}{% endblock %}

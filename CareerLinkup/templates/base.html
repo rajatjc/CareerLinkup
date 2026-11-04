@@ -5,10 +5,10 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="theme-color" content="#3776AB">
+    <meta name="theme-color" content="#4f46e5">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- google fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
     <!-- favicon -->
     <link rel="mask-icon" href="{{url_for('static', filename='img/CareerLinkup.png')}}">
     <link rel="icon" href="{{url_for('static', filename='img/CareerLinkup.png')}}" type="image/png">
@@ -22,10 +22,20 @@
     <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/queries.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/animate.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/theme.css')}}">
     <title>{{ title }}</title>
 </head>
 
 <body class="text-dark">
+{#- One nav for every page. The active link comes from the current route, so templates never override it. -#}
+{% macro nav_link(endpoint, label, active_in) -%}
+<li>
+    <a class="nav-link ps-sm-auto ps-2{{ ' active' if request.endpoint in active_in }}" href="{{ url_for(endpoint) }}">{{ label }}</a>
+</li>
+{%- endmacro %}
+{% set JOBS = ['jobs.job_list', 'jobs.categories', 'jobs.filtered', 'jobs.profile', 'jobs.job_search'] %}
+{% set COMPANIES = ['employer.company_list', 'employer.profile', 'employer.company_search'] %}
+{% set INSIGHTS = ['main.show_insights', 'main.demographic_visualization', 'main.filter_employers', 'main.salary_growth_comparison', 'main.show_jad'] %}
     <nav class="navbar navbar-expand-md navbar-light bg-light py-1">
         <div class="container">
             <a class="navbar-brand" href="{{url_for('main.home')}}">
@@ -41,26 +51,12 @@
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="navbar-nav ms-auto align-items-center">
                     {% if current_user.is_authenticated and current_user.applicants %}
-                        {% block logged_applicant %}
-                            <li>
-                                <a class="nav-link ps-sm-auto ps-2 active" href="{{url_for('main.home')}}">Account</a>
-                            </li>
-                            <li>
-                                <a class="nav-link ps-sm-auto ps-2" href="{{url_for('jobs.job_list')}}">Jobs</a>
-                            </li>
-                            <li>
-                                <a class="nav-link ps-sm-auto ps-2" href="{{url_for('applicant.jobs_applied')}}">Jobs Applied</a>
-                            </li>
-                            <li>
-                                <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.company_list')}}">Companies</a>
-                            </li>
-                            <li>
-                                <a class="nav-link ps-sm-auto ps-2" href="{{url_for('main.show_insights')}}">Insights</a>
-                            </li>
-                            <li>
-                                <a class="nav-link ps-sm-auto ps-2" href="{{url_for('applicant.create_resume')}}">Resume Builder</a>
-                            </li>
-                        {% endblock %}
+                        {{ nav_link('main.home', 'Account', ['main.home']) }}
+                        {{ nav_link('jobs.job_list', 'Jobs', JOBS) }}
+                        {{ nav_link('applicant.jobs_applied', 'Jobs Applied', ['applicant.jobs_applied', 'applicant.shortlisted_jobs']) }}
+                        {{ nav_link('employer.company_list', 'Companies', COMPANIES) }}
+                        {{ nav_link('main.show_insights', 'Insights', INSIGHTS) }}
+                        {{ nav_link('applicant.create_resume', 'Resume Builder', ['applicant.create_resume']) }}
                         <li>
                             <a class="nav-link ps-sm-auto ps-2 d-block d-sm-none" href="{{url_for('applicant.settings')}}">Settings</a>
                         </li>
@@ -71,20 +67,10 @@
                             <a class="d-block btn btn-sm btn-brand peach text-light ms-md-3" href="{{url_for('main.logout')}}">Logout <i class="fa fa-sign-out"></i></a>
                         </li>
                     {% elif current_user.is_authenticated and current_user.employers %}
-                        {% block logged_employer %}
-                            <li>
-                                <a class="nav-link ps-sm-auto ps-2 active" href="{{url_for('main.home')}}">Account</a>
-                            </li>
-                            <li>
-                                <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.posted_jobs')}}">Your Jobs</a>
-                            </li>
-                            <li>
-                                <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.applicants')}}">Applicants</a>
-                            </li>
-                            <li>
-                                <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.post_jobs')}}">Add Jobs</a>
-                            </li>
-                        {% endblock %} 
+                        {{ nav_link('main.home', 'Account', ['main.home']) }}
+                        {{ nav_link('employer.posted_jobs', 'Your Jobs', ['employer.posted_jobs', 'employer.edit_jobs', 'employer.job_details']) }}
+                        {{ nav_link('employer.applicants', 'Applicants', ['employer.applicants', 'employer.applicants_per_job', 'employer.listed_applicants', 'employer.candidates']) }}
+                        {{ nav_link('employer.post_jobs', 'Add Jobs', ['employer.post_jobs']) }}
                         <li>
                             <a class="nav-link ps-sm-auto ps-2 d-block d-sm-none" href="{{url_for('employer.settings')}}">Settings</a>
                         </li>
@@ -95,44 +81,30 @@
                             <a class="d-block btn btn-sm btn-brand peach text-light ms-md-3" href="{{url_for('main.logout')}}">Logout <i class="fa fa-sign-out"></i></a>
                         </li>    
                     {% else %}
-                        {% block logged_out %}
-                            <li>
-                                <a class="nav-link ps-sm-auto ps-2 active" href="{{url_for('main.home')}}">Home</a>
-                            </li>
-                            <li>
-                                <a class="nav-link ps-sm-auto ps-2" href="{{url_for('jobs.job_list')}}">Jobs</a>
-                            </li>
-                            <li>
-                                <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.company_list')}}">Companies</a>
-                            </li>
-                            <li>
-                                <a class="nav-link ps-sm-auto ps-2" href="{{url_for('main.show_insights')}}">Insights</a>
-                            </li>
-                            <li>
-                                <a class="nav-link ps-sm-auto ps-2" href="{{url_for('applicant.create_resume')}}">Resume Builder</a>
-                            </li>
-                            <li>
-                                <a class="nav-link ps-sm-auto ps-2" href="{{url_for('main.about')}}">About Us</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link ps-sm-auto ps-2 dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    Login</a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="{{url_for('employer.employer_login')}}">Employer</a></li>
-                                    <li><a class="dropdown-item" href="{{url_for('applicant.applicant_login')}}">Applicant</a></li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li><a class="dropdown-item" href="{{url_for('admin.admin_login')}}">Admin</a></li>
-                                </ul>
-                            </li>
-                        {% endblock %}
+                        {{ nav_link('main.home', 'Home', ['main.home']) }}
+                        {{ nav_link('jobs.job_list', 'Jobs', JOBS) }}
+                        {{ nav_link('employer.company_list', 'Companies', COMPANIES) }}
+                        {{ nav_link('main.show_insights', 'Insights', INSIGHTS) }}
+                        {{ nav_link('applicant.create_resume', 'Resume Builder', ['applicant.create_resume']) }}
+                        {{ nav_link('main.about', 'About Us', ['main.about']) }}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link ps-sm-auto ps-2 dropdown-toggle" href="#" id="loginDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Login</a>
+                            <ul class="dropdown-menu" aria-labelledby="loginDropdown">
+                                <li><a class="dropdown-item" href="{{url_for('employer.employer_login')}}">Employer</a></li>
+                                <li><a class="dropdown-item" href="{{url_for('applicant.applicant_login')}}">Applicant</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="{{url_for('admin.admin_login')}}">Admin</a></li>
+                            </ul>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="dropdown-toggle d-block btn btn-sm btn-brand peach text-light ms-md-3" href="#"
-                                id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                id="registerDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Register</a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-menu" aria-labelledby="registerDropdown">
                                 <a class="dropdown-item" href="{{url_for('employer.employer_signup')}}">Employer</a>
                                 <a class="dropdown-item" href="{{url_for('applicant.applicant_signup')}}">Applicant</a>
                                 

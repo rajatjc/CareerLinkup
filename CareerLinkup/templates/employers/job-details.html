@@ -16,7 +16,7 @@
                         </div>
                         <div class="ps-3 w-100">
                             <div class="border-bottom mb-1">
-                                <small class="text-muted"><i class="fa fa-calendar t-prim"></i> Posted {{ job.date_posted.strftime("%d %b, %Y") }}</small>
+                                <small class="text-muted"><i class="fa fa-calendar t-prim"></i> Posted {{ job.date_posted | timeago }}</small>
                             </div>
                             <div class="m-0 h2 text-dark">{{ job.title }}</div>
                             <p class="text-muted m-0">{{ job.company.name.capitalize() }} <small><i class="fa fa-map-marker t-prim"></i> {{ job.company.location }}</small></p>

@@ -1,47 +1,6 @@
 {% extends 'base.html' %}
 
-{% block logged_applicant %}
-    <li>
-        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('main.home')}}">Account</a>
-    </li>
-    <li>
-        <a class="nav-link ps-sm-auto ps-2 active" href="{{url_for('jobs.job_list')}}">Jobs</a>
-    </li>
-    <li>
-        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('applicant.jobs_applied')}}">Jobs Applied</a>
-    </li>
-    <li>
-        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.company_list')}}">Companies</a>
-    </li>
-{% endblock %}
                           
-{% block logged_out %}
-    <li>
-        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('main.home')}}">Home</a>
-    </li>
-    <li>
-        <a class="nav-link ps-sm-auto ps-2 active" href="{{url_for('jobs.job_list')}}">Jobs</a>
-    </li>
-    <li>
-        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.company_list')}}">Companies</a>
-    </li>
-    <li>
-        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('main.about')}}">About Us</a>
-    </li>
-    <li class="nav-item dropdown">
-        <a class="nav-link ps-sm-auto ps-2 dropdown-toggle" href="#" id="navbarDropdown" role="button"
-            data-bs-toggle="dropdown" aria-expanded="false">
-            Login</a>
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="{{url_for('employer.employer_login')}}">Employer</a></li>
-            <li><a class="dropdown-item" href="{{url_for('applicant.applicant_login')}}">Applicant</a></li>
-            <li>
-                <hr class="dropdown-divider">
-            </li>
-            <li><a class="dropdown-item" href="{{url_for('admin.admin_login')}}">Admin</a></li>
-        </ul>
-    </li>
-{% endblock %}
 
 {% block container %}
 
@@ -66,7 +25,7 @@
                                 </div>
                                 <div class="w-100 ms-2">
                                     <div class="border-bottom d-flex align-items-center">
-                                        <small class="text-muted"><i class="fa fa-calendar t-prim"></i> {{ job.date_posted.strftime("%d %b, %Y") }}</small>
+                                        <small class="text-muted"><i class="fa fa-calendar t-prim"></i> {{ job.date_posted | timeago }}</small>
 
                                         {% if current_user.is_authenticated and current_user.applicants and job in current_user.applicants.applied_jobs %}
                                             <span class="text-success ms-auto">Applied <i class="fa fa-check-square-o"></i></span>

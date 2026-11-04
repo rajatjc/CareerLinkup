@@ -1,0 +1,337 @@
+/* Visual refresh. Loaded after style.css, so it only overrides: no markup depends on it. */
+
+html {
+    --accent: #4f46e5;
+    --accent-dark: #4338ca;
+    --accent-soft: #eef2ff;
+    --ink: #111827;
+    --muted: #6b7280;
+    --line: #e5e7eb;
+    --surface: #f8fafc;
+    --radius: 14px;
+    --shadow: 0 1px 2px rgba(17, 24, 39, .06), 0 4px 16px rgba(17, 24, 39, .06);
+    --shadow-hover: 0 2px 4px rgba(17, 24, 39, .08), 0 12px 28px rgba(79, 70, 229, .14);
+
+    /* the old palette was all black; point it at the accent */
+    --peach: var(--accent);
+    --prim: var(--accent);
+    --teal1: #4f46e5;
+    --teal2: #7c3aed;
+}
+
+html,
+body {
+    font-family: "Inter", "Montserrat", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 15px;
+    color: var(--ink);
+    background: var(--surface);
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .h1, .h2, .h3, .h4 {
+    letter-spacing: -0.02em;
+    font-weight: 700;
+}
+
+.text-muted { color: var(--muted) !important; }
+.bg-light { background: var(--surface) !important; }
+
+/* ---- navbar ---- */
+.navbar {
+    background: rgba(255, 255, 255, .85) !important;
+    backdrop-filter: saturate(180%) blur(10px);
+    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    padding-block: .55rem !important;
+}
+
+.navbar-brand img { height: 30px; width: auto; }
+.navbar-brand b { color: var(--ink); letter-spacing: -0.02em; }
+
+.navbar .nav-link {
+    color: var(--muted);
+    font-weight: 500;
+    border-radius: 8px;
+    padding: .45rem .8rem !important;
+}
+
+.navbar .nav-link:hover { color: var(--ink); background: var(--accent-soft); }
+.navbar .nav-link.active { color: var(--accent); background: var(--accent-soft); border-bottom: 0; }
+
+/* ---- buttons ---- */
+.btn { border-radius: 999px; font-weight: 600; }
+
+.btn-brand {
+    background: var(--accent);
+    border: 0;
+    color: #fff !important;
+    box-shadow: 0 1px 2px rgba(79, 70, 229, .3);
+    transition: background .2s ease, transform .15s ease, box-shadow .2s ease;
+}
+
+.btn-brand.peach:hover,
+.btn-brand.prim:hover,
+.btn-brand:hover {
+    background: var(--accent-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(79, 70, 229, .3);
+}
+
+.btn-outline-dark { border-color: var(--line); color: var(--ink); }
+.btn-outline-dark:hover { background: var(--ink); border-color: var(--ink); }
+
+a:hover { color: var(--accent); }
+
+/* ---- forms ---- */
+.form-control,
+.form-select {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: .6rem .85rem;
+    background: #fff;
+}
+
+.form-control:focus,
+.form-control:valid,
+.form-select:focus {
+    border: 1px solid var(--accent);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, .15);
+}
+
+/* ---- hero on the landing page ---- */
+#hero.g-light {
+    background:
+        radial-gradient(900px 400px at 85% -10%, rgba(124, 58, 237, .18), transparent 60%),
+        radial-gradient(700px 360px at 0% 10%, rgba(79, 70, 229, .14), transparent 60%),
+        #fff;
+    margin-bottom: 0 !important;
+    padding: 3.5rem 0 2rem;
+}
+
+.hero-zlayer::before { display: none; }
+.h1-1 { font-size: clamp(2rem, 4.2vw, 3.1rem); line-height: 1.1; }
+.h1-2, .t-prim.h1-2 { color: var(--accent); font-size: clamp(1.2rem, 2.4vw, 1.7rem); }
+#hero p { color: var(--muted); font-weight: 400; font-size: 1.05rem; }
+.hero-img { filter: drop-shadow(0 20px 40px rgba(79, 70, 229, .18)); }
+
+/* ---- job search band ---- */
+#find-jobs {
+    background:
+        radial-gradient(800px 300px at 80% 0%, rgba(167, 139, 250, .5), transparent 60%),
+        linear-gradient(135deg, #3730a3 0%, #4f46e5 55%, #7c3aed 100%) !important;
+    padding: 3rem 0 3.25rem !important;
+}
+
+#find-jobs h2 { font-size: clamp(1.6rem, 3.2vw, 2.4rem); }
+#find-jobs .lead { opacity: .85; margin: .35rem 0 1.5rem; }
+
+.search-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: .5rem;
+    background: #fff;
+    border-radius: 999px;
+    box-shadow: 0 12px 32px rgba(17, 24, 39, .28);
+}
+
+.search-bar .field {
+    flex: 1 1 200px;
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    padding: 0 1rem;
+    color: var(--muted);
+}
+
+.search-bar .field + .field { border-left: 1px solid var(--line); }
+.search-bar input.form-control {
+    border: 0;
+    box-shadow: none !important;
+    padding: .7rem 0;
+    background: transparent;
+    color: var(--ink);
+}
+
+.search-bar .btn { padding: .7rem 1.6rem; }
+
+@media (max-width: 640px) {
+    .search-bar { border-radius: var(--radius); }
+    .search-bar .field + .field { border-left: 0; border-top: 1px solid var(--line); }
+    .search-bar .btn { width: 100%; }
+}
+
+/* ---- cards ---- */
+#jobs-list .jobs-card,
+.category-card,
+.admin-card {
+    background: #fff;
+    border: 1px solid var(--line) !important;
+    border-radius: var(--radius) !important;
+    box-shadow: var(--shadow);
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+#jobs-list .jobs-card:hover,
+.category-card:hover,
+.admin-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(79, 70, 229, .35) !important;
+}
+
+#jobs-list .jobs-card h3 { font-size: 1.15rem; margin-top: .75rem; }
+.t-prim, .fa.t-prim { color: var(--accent) !important; }
+
+.category-card .category-img-box { text-align: center; }
+.category-card .image-box { background: var(--accent-soft); border-radius: 50%; width: 76px; height: 76px; margin-inline: auto !important; display: grid; place-items: center; }
+.category-card .image-box img { width: 54px; height: 54px; object-fit: cover; }
+
+.profile-img-ctn img { border-radius: 12px; border: 1px solid var(--line); background: #fff; }
+
+#jobs-list .section-header h2,
+#job-categories .h2 { font-size: 1.6rem; }
+
+/* job type pill */
+#jobs-list .jobs-card .btn-brand { font-size: .75rem; padding: .3rem .85rem; }
+
+/* ---- pagination ---- */
+.btn-outline-primary { color: var(--accent); border-color: var(--line); }
+.btn-outline-primary:hover { background: var(--accent); border-color: var(--accent); }
+.btn-light { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
+
+/* ---- alerts ---- */
+.alert { border: 0; border-radius: 12px; box-shadow: var(--shadow); }
+
+/* ---- keyboard focus ---- */
+a:focus-visible, .btn:focus-visible, button:focus-visible, input:focus-visible {
+    outline: 3px solid rgba(79, 70, 229, .45);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+}
+
+/* ---- home page ---- */
+html { scroll-behavior: smooth; }
+
+.eyebrow {
+    display: inline-block;
+    padding: .3rem .85rem;
+    margin-bottom: 1rem;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: .8rem;
+    font-weight: 600;
+}
+
+.grad-text {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.hero-sub { font-size: 1.1rem; max-width: 34rem; margin: 1rem auto 1.75rem; }
+@media (min-width: 992px) { .hero-sub { margin-left: 0; } }
+.hero-img { width: 100%; height: auto; max-width: 560px; display: block; margin-inline: auto; filter: none; }
+.float-a { animation: float 6s ease-in-out infinite; }
+.float-b { animation: float 7s ease-in-out -2s infinite; }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+.feature-card {
+    height: 100%;
+    padding: 1.6rem;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+.feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+.feature-card h3 { font-size: 1.1rem; margin: 1rem 0 .4rem; }
+.feature-card p { margin: 0; color: var(--muted); }
+.feature-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 1.2rem;
+}
+
+.cta-band {
+    margin-top: 2rem;
+    padding: 3.5rem 0;
+    color: #fff;
+    background: linear-gradient(135deg, #3730a3 0%, #4f46e5 55%, #7c3aed 100%);
+}
+.cta-band h2 { font-size: clamp(1.5rem, 3vw, 2.1rem); }
+.cta-band p { opacity: .85; margin-bottom: 1.5rem; }
+.cta-band .btn-light { background: #fff; color: var(--accent); }
+.cta-band .btn-light:hover { background: var(--accent-soft); }
+
+/* ---- smoother motion ---- */
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease var(--d, 0s), transform .6s ease var(--d, 0s); }
+.reveal.in { opacity: 1; transform: none; }
+.no-js .reveal { opacity: 1; transform: none; }
+
+body { animation: page-in .35s ease both; }
+@keyframes page-in { from { opacity: 0; } to { opacity: 1; } }
+
+.navbar .nav-link, .btn, .form-control, a { transition: color .15s ease, background-color .15s ease, border-color .15s ease, box-shadow .15s ease, transform .15s ease; }
+.dropdown-menu { border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: .4rem; }
+.dropdown-item { border-radius: 8px; }
+.dropdown-item:hover { background: var(--accent-soft); color: var(--accent); }
+
+/* ---- placeholders: round, consistent logo and avatar tiles ---- */
+.profile-img-ctn img { object-fit: cover; background: var(--accent-soft); }
+.jobs-card small.text-muted { font-size: .82rem; }
+
+/* ---- inner pages (About, Resume Builder) ---- */
+.page-section { padding-block: 3rem; }
+.page-title { font-size: clamp(1.8rem, 3.4vw, 2.6rem); line-height: 1.15; margin: 0 0 1rem; }
+.page-subtitle { font-size: clamp(1.4rem, 2.6vw, 1.9rem); }
+.lead-text { color: var(--muted); font-size: 1.08rem; max-width: 40rem; margin-inline: auto; }
+.about-photo { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 20px; box-shadow: var(--shadow-hover); }
+.about-points { display: grid; gap: 1.25rem; margin-top: 1.5rem; }
+@media (min-width: 768px) { .about-points { grid-template-columns: 1fr 1fr; } }
+.about-points h2 { font-size: 1.05rem; margin-bottom: .35rem; }
+.about-points p { color: var(--muted); margin: 0; }
+
+.form-shell { max-width: 720px; }
+.form-card { background: #fff; border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); padding: clamp(1.25rem, 3vw, 2rem); }
+.form-label { font-weight: 600; font-size: .9rem; margin-bottom: .35rem; }
+textarea.form-control { resize: vertical; min-height: 6rem; }
+#about .lead-text { margin-inline: 0; }
+.feature-card.d-flex p { margin-bottom: 1.1rem; }
+.feature-card.d-flex .btn { margin-top: auto !important; }
+
+/* ---- insights and charts ---- */
+.insight-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.insight-tile {
+    display: flex; flex-direction: column; gap: .35rem; height: 100%;
+    padding: 1.4rem; background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+    box-shadow: var(--shadow); color: var(--ink);
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.insight-tile:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); border-color: rgba(79, 70, 229, .35); color: var(--ink); }
+.insight-tile h3 { font-size: 1.05rem; margin: .8rem 0 0; }
+.insight-tile p { margin: 0; color: var(--muted); font-size: .92rem; }
+
+.chart-card { max-width: 860px; margin-inline: auto; padding: clamp(1rem, 3vw, 1.75rem); background: #fff; border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); text-align: center; }
+.chart-card img { max-width: 100%; height: auto; }
+
+.data-table { width: 100%; border-collapse: separate; border-spacing: 0; background: #fff; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); }
+.data-table th { background: var(--accent-soft); color: var(--accent); font-weight: 600; font-size: .85rem; text-align: left; padding: .8rem 1rem; }
+.data-table td { padding: .8rem 1rem; border-top: 1px solid var(--line); }
+.data-table tbody tr:hover { background: var(--surface); }
+.filter-bar { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); align-items: end; }

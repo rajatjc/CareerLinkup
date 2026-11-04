@@ -1,37 +1,18 @@
 {% extends "base.html" %}
-
-{% block title %}
-    <title>{{ title }}</title>
-{% endblock %}
+{% set title = "CareerLinkup | Applicants per company" %}
 
 {% block container %}
-    <style>
-        body {
-            text-align: center;
-        }
-
-        .chart-container {
-            /* Add padding to the top to push the content down */
-            padding-top: 20px;
-        }
-
-        .pie-chart {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* Adjust the width and height of the bar chart here */
-        img {
-            width: 60%;
-            height: auto;
-        }
-    </style>
-
-    <div class="chart-container">
-        <h1>Applicants Insights</h1>
-        <div class="pie-chart">
-            <img src="data:image/png;base64,{{ plot_base64 }}" alt="Company Applicants Insights">
+<section class="page-section">
+    <div class="container">
+        <div class="text-center mb-4">
+            <span class="eyebrow">Insights</span>
+            <h1 class="page-title">Applicants per company</h1>
+        </div>
+        <div class="chart-card">
+            <img src="data:image/png;base64,{{ plot_base64 }}" alt="Applicants per company">
         </div>
     </div>
+</section>
 {% endblock %}
+
+{% block script %}{% endblock %}

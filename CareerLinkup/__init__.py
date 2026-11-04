@@ -1,4 +1,6 @@
 # Import necessary modules and libraries
+from datetime import datetime
+
 import matplotlib
 
 matplotlib.use("Agg")  # Charts are rendered to PNG on the server; there is no display to draw on.
@@ -57,6 +59,29 @@ def create_app(overrides=None):
     @app.template_filter()
     def numberFormat(value):
         return format(int(value), ',d')
+
+    @app.template_filter()
+    def fdate(value):
+        """'Nov 4, 2026': no zero-padded day, month before day."""
+        return f"{value:%b} {value.day}, {value.year}"
+
+    @app.template_filter()
+    def timeago(value):
+        """'Today', '3 days ago', '2 weeks ago'; falls back to the date after a few months."""
+        days = (datetime.utcnow().date() - value.date()).days
+        if days <= 0:
+            return "Today"
+        if days == 1:
+            return "Yesterday"
+        if days < 7:
+            return f"{days} days ago"
+        if days < 30:
+            weeks = days // 7
+            return f"{weeks} week{'s' if weeks > 1 else ''} ago"
+        if days < 90:
+            months = days // 30
+            return f"{months} month{'s' if months > 1 else ''} ago"
+        return fdate(value)
 
     with app.app_context():
         db.create_all()

@@ -1,15 +1,18 @@
-<section id="find-jobs" class="bg-teal-lgrad text-light text-center py-3">
+<section id="find-jobs" class="text-light text-center">
     <div class="container">
-        <h2 class="m-0">Find Jobs!!!</h2>
-        <div class="row py-3">
-            <div class="col-md-3 col-lg-2 mx-auto text-light p-3">
-                <form class="my-2 search-form" action="{{ url_for('jobs.job_search') }}" method="post">
-                    {{ form1.hidden_tag() }}
-                    <input type="text" placeholder="Job Title/Category" class="form-control" name="title" required>
-                    <input type="text" name="location" placeholder="Location" class="form-control my-2">
-                    <button type="submit" class="btn btn-light btn-block"> <i class="fa fa-search"></i> Search </button>
-                </form>
-            </div>
-        </div>
+        <h2 class="m-0">Find your next role</h2>
+        <p class="lead">Search by title or category, and narrow by city.</p>
+        <form class="search-form search-bar" action="{{ url_for('jobs.job_search') }}" method="post">
+            {{ form1.hidden_tag() }}
+            <label class="field">
+                <i class="fa fa-search" aria-hidden="true"></i>
+                <input type="text" placeholder="Job title or category" class="form-control" name="title" aria-label="Job title or category" required>
+            </label>
+            <label class="field">
+                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                <input type="text" name="location" placeholder="Location" class="form-control" aria-label="Location">
+            </label>
+            <button type="submit" class="btn btn-brand">Search</button>
+        </form>
     </div>
 </section>
