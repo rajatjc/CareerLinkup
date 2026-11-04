@@ -1,14 +1,19 @@
 {% extends "base.html" %}
-
-{% block title %}
-    <title>Salary Growth Chart</title>
-{% endblock %}
+{% set title = "CareerLinkup | Salary growth" %}
 
 {% block container %}
-    <div class="mt-5 mb-4">
-        <h1 class="text-center">Salary Growth Chart:</h1>
-        <div class="d-flex justify-content-center">
-            <img src="data:image/png;base64,{{ chart_data }}" alt="Salary Growth Chart" style="max-width: 80%;">
+<section class="page-section">
+    <div class="container">
+        <div class="text-center mb-4">
+            <span class="eyebrow">Insights</span>
+            <h1 class="page-title">Salary growth chart</h1>
         </div>
+        <div class="chart-card">
+            <img src="data:image/png;base64,{{ chart_data }}" alt="Salary growth chart">
+        </div>
+        <p class="text-center mt-4"><a class="btn btn-outline-dark" href="{{ url_for('main.salary_growth_comparison') }}">Try another salary</a></p>
     </div>
+</section>
 {% endblock %}
+
+{% block script %}{% endblock %}

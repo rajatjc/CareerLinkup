@@ -1,19 +1,5 @@
 {% extends 'base.html' %}
 
-{% block logged_applicant %}
-    <li>
-        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('main.home')}}">Account</a>
-    </li>
-    <li>
-        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('jobs.job_list')}}">Jobs</a>
-    </li>
-    <li>
-        <a class="nav-link ps-sm-auto ps-2 active" href="{{url_for('applicant.jobs_applied')}}">Jobs Applied</a>
-    </li>
-    <li>
-        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.company_list')}}">Companies</a>
-    </li>
-{% endblock %}
 
 {% block container %}
 
@@ -56,7 +42,7 @@
                                         {{ job.company.name.capitalize() }} | <i class="fa fa-map-marker t-prim"></i> {{ job.company.location }}
                                     </p>
                                     <a href="{{ url_for('jobs.profile', job_id=job.id) }}" class="btn btn-brand prim text-light btn-sm">{{ job.type }}</a>
-                                    <small class=" ms-2">Applied {{ date.strftime("%d %b, %Y") }}</small>
+                                    <small class=" ms-2">Applied {{ date | fdate }}</small>
 
                                 </div>
                                 <div class="ms-auto">

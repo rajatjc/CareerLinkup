@@ -1,19 +1,5 @@
 {% extends 'base.html' %}
 
-{% block logged_employer %}
-    <li>
-        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('main.home')}}">Account</a>
-    </li>
-    <li>
-        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.posted_jobs')}}">Your Jobs</a>
-    </li>
-    <li>
-        <a class="nav-link ps-sm-auto ps-2 active" href="{{url_for('employer.applicants')}}">Applicants</a>
-    </li>
-    <li>
-        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.post_jobs')}}">Add Jobs</a>
-    </li>
-{% endblock %} 
 
 {% block container %}
 
@@ -69,7 +55,7 @@
                                                 <a href="tel:{{ user.phone }}" target="_blank" class="text-dark text-muted"><i class="fa fa-phone t-prim"></i> {{ user.phone }}</a>
                                             </p>
                                             <p class="">
-                                                <small class="">Applied {{ date.strftime("%d %b, %Y") }}</small>
+                                                <small class="">Applied {{ date | fdate }}</small>
                                             </p>
                                             <button class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#text-user{{user.id}}" >Message <i class="fa fa-send"></i></button>
                                             {% if not listed %}

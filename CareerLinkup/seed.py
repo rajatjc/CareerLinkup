@@ -1,4 +1,5 @@
 import os
+from datetime import datetime, timedelta
 
 import click
 from flask import current_app
@@ -10,6 +11,8 @@ from CareerLinkup import bcrypt, db
 from CareerLinkup.models import Admin, Applicant, Employer, Job, User
 
 DEMO_PASSWORD = "password123"
+# Spread the demo jobs over time so "Posted 3 days ago" shows more than one value.
+POSTED_DAYS_AGO = [0, 1, 3, 9, 20]
 
 EMPLOYERS = [
     ("NORTHWIND LABS", "Montreal", "Data tools for small teams", "https://northwind.example", [
@@ -55,12 +58,14 @@ def seed_command():
     jobs = []
     for i, (name, location, tagline, website, openings) in enumerate(EMPLOYERS):
         employer = Employer(name=name, phone=f"51455501{i + 1:02d}", location=location, tagline=tagline,
+                            logo=f"{name.split()[0].lower()}.png",
                             description=f"{name.title()} is a demo company created by the seed command.",
                             website=website, user=user(f"hr@{name.split()[0].lower()}.example", "employer"))
         db.session.add(employer)
         for title, category, kind, salary, description in openings:
             jobs.append(Job(title=title, category=category, type=kind, salary=salary,
-                            description=description, company=employer))
+                            description=description, company=employer,
+                            date_posted=datetime.utcnow() - timedelta(days=POSTED_DAYS_AGO[len(jobs) % len(POSTED_DAYS_AGO)])))
     db.session.add_all(jobs)
 
     applicant = Applicant(f_name="Ada", l_name="Lovelace", phone="5145550199",

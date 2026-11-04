@@ -1,77 +1,47 @@
 {% extends 'base.html' %}
 
 {% block container %}
-<head>
-    <title>Resume Creator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-        }
+<section class="page-section">
+    <div class="container form-shell reveal">
+        <div class="text-center mb-4">
+            <span class="eyebrow">Resume builder</span>
+            <h1 class="page-title">Create your resume</h1>
+            <p class="lead-text">Fill in the details and download a tidy PDF. Nothing is saved.</p>
+        </div>
 
-        h1 {
-            text-align: center;
-        }
+        <form class="form-card" method="POST" action="{{ url_for('applicant.create_resume') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
-        form {
-            width: 80%;
-            margin: 0 auto;
-        }
+            <div class="row g-3">
+                <div class="col-12">
+                    <label class="form-label" for="name">Full name</label>
+                    <input class="form-control" type="text" name="name" id="name" placeholder="Ada Lovelace" autocomplete="name" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="email">Email</label>
+                    <input class="form-control" type="email" name="email" id="email" placeholder="ada@example.com" autocomplete="email" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="phone">Phone</label>
+                    <input class="form-control" type="text" name="phone" id="phone" placeholder="514 555 0199" autocomplete="tel" required>
+                </div>
+                <div class="col-12">
+                    <label class="form-label" for="summary">Summary</label>
+                    <textarea class="form-control" name="summary" id="summary" rows="4" placeholder="Two or three lines on who you are and what you do best." required></textarea>
+                </div>
+                <div class="col-12">
+                    <label class="form-label" for="education">Education</label>
+                    <textarea class="form-control" name="education" id="education" rows="4" placeholder="Degree, school, years" required></textarea>
+                </div>
+                <div class="col-12">
+                    <label class="form-label" for="experience">Experience</label>
+                    <textarea class="form-control" name="experience" id="experience" rows="6" placeholder="Role, company, years, and what you achieved" required></textarea>
+                </div>
+            </div>
 
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        input,
-        textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            resize: vertical;
-        }
-
-        textarea {
-            height: 150px;
-        }
-
-        input[type="submit"] {
-            background-color: #007bff;
-            color: #fff;
-            cursor: pointer;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-    </style>
-</head>
-<body>
-    <h1>Resume Creator</h1>
-    <form method="POST" action="{{ url_for('applicant.create_resume') }}">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-        <label for="name">Name:</label>
-        <input type="text" name="name" id="name" required>
-
-        <label for="email">Email:</label>
-        <input type="email" name="email" id="email" required>
-
-        <label for="phone">Phone:</label>
-        <input type="text" name="phone" id="phone" required>
-
-        <label for="summary">Summary:</label>
-        <textarea name="summary" id="summary" rows="6" cols="50" required></textarea>
-
-        <label for="education">Education:</label>
-        <textarea name="education" id="education" rows="6" cols="50" required></textarea>
-
-        <label for="experience">Experience:</label>
-        <textarea name="experience" id="experience" rows="6" cols="50" required></textarea>
-
-        <input type="submit" value="Create Resume">
-    </form>
+            <button class="btn btn-brand btn-lg w-100 mt-4" type="submit"><i class="fa fa-download me-2" aria-hidden="true"></i>Create resume</button>
+        </form>
+    </div>
+</section>
 {% endblock %}
 {% block script %}{% endblock %}

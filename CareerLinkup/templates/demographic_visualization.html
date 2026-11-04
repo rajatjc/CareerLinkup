@@ -1,48 +1,18 @@
 {% extends "base.html" %}
-
-{% block title %}
-    <title>Demographic Visualization of Jobs</title>
-{% endblock %}
+{% set title = "CareerLinkup | Employers by city" %}
 
 {% block container %}
-    <style>
-        /* Custom styles specific to this page */
-        .pie-chart {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            max-width: 80%;
-            padding: 20px;
-            margin: 0 auto;
-        }
-        
-        /* Override Bootstrap's default styles */
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 0;
-        }
-
-        h1 {
-            text-align: center;
-            margin-top: 30px;
-            color: #3776AB;
-            font-weight: 700;
-            font-size: 36px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-    </style>
-
+<section class="page-section">
     <div class="container">
-        <h1>Demographic Visualization of Jobs</h1>
-        <div class="pie-chart">
-            <img src="data:image/png;base64,{{ plot_base64 }}" alt="Demographic Visualization">
+        <div class="text-center mb-4">
+            <span class="eyebrow">Insights</span>
+            <h1 class="page-title">Employers by city</h1>
+        </div>
+        <div class="chart-card">
+            <img src="data:image/png;base64,{{ plot_base64 }}" alt="Employers by city">
         </div>
     </div>
+</section>
 {% endblock %}
+
+{% block script %}{% endblock %}

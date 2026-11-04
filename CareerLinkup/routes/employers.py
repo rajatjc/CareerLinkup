@@ -100,7 +100,8 @@ def remove_job(job_id):
 @employer.route("/employer/candidates/")
 @user_role_required('employer')
 def candidates():
-    pass
+    # Unfinished page that returned None (HTTP 500). Applicants per job is where this belongs.
+    return redirect(url_for('.applicants'))
 
 
 
