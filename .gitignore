@@ -19,6 +19,14 @@ CareerLinkup/static/applicant/resume/*
 !CareerLinkup/static/applicant/resume/.gitkeep
 CareerLinkup/static/employer/logo/*
 !CareerLinkup/static/employer/logo/company.png
+# Logos used by `flask seed`
+!CareerLinkup/static/employer/logo/northwind.png
+!CareerLinkup/static/employer/logo/maple.png
+!CareerLinkup/static/employer/logo/harbour.png
+
+# Spec Kit (local tooling, not part of the app)
+.claude/
+.specify/
 
 # Editors
 .idea/
