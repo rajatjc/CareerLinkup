@@ -81,6 +81,28 @@ docker build -t careerlinkup .
 docker run -p 8000:8000 -e SECRET_KEY=change-me -v careerlinkup-data:/app/instance careerlinkup
 ```
 
+### Deploy on Render
+
+The repo has no Render config file, so set the web service up by hand:
+
+| Setting | Value |
+|---------|-------|
+| Language | Python 3 |
+| Build command | `pip install -r requirements.txt` |
+| Start command | `gunicorn main:app` |
+| `PYTHON_VERSION` | a 3.12 or 3.13 release. Render's default is far older than this app supports. |
+| `SECRET_KEY` | a long random string |
+
+Render auto-deploys on every push to `main`, so a wrong build command fails the deploy as soon as a PR
+merges. The previous version keeps running until a deploy succeeds.
+
+On a free instance there is no persistent disk, so the SQLite database and uploaded files are lost at
+every deploy and restart. For data that lasts, set `DATABASE_URL` to a hosted database.
+
+On a database with no admin, `/admin/create` makes the first admin account. On a public site that means
+the first visitor could claim it, so create your admin yourself as soon as the service starts. Don't run
+`flask seed` on a public deployment: it creates demo logins with a published password.
+
 ## Tests
 
 ```bash
